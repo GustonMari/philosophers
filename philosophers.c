@@ -6,12 +6,15 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 10:09:12 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/25 15:52:18 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/25 17:22:55 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
+
 /*
 number_of_philosophers 
 time_to_die =>ms since last meal or begin
@@ -31,19 +34,40 @@ A displayed state message should not be mixed up with another message
 A message announcing a philosopher died should be displayed no more than 10 ms
 after the actual death of the philosopher.
 */
+////////////////////////////////////////////////////////////////////////
+/*
+exit on y mets null car on part du principe que create a marcher
+son second paramètre, un pointeur, 
+permet de récupérer la valeur retournée par la fonction dans laquelle s'exécute le thread
 
-void	print()
-
-int	main(int ac, char **av)
+*/
+void	*print(void	*nb)
 {
-	int check;
+	//(void)nb;
+	printf("%d\n", *(int *)nb);
+	pthread_exit(NULL);
+}
+
+int	main()
+{
+	int check = 6;
 	pthread_t th;
+	void	*nb;
+	int	four= 4;
+	nb = &four;
 	
-	check = pthread_create(&th, NULL, &print, 4);
-	if (check != 0)
+	check = pthread_create(&th, NULL, print, nb);
+	if (check < 0)
 	{
 		write(2, "Error\n", 6);
+		return (0);
 	}
-	pthread_exit(check);
+	check = pthread_join(th, NULL);
+	if (check < 0)
+	{
+		write(2, "Error\n", 6);
+		return (0);
+	}
+	return (0);
 }
 
