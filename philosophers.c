@@ -6,15 +6,11 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 10:09:12 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/25 17:22:55 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/26 17:06:51 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <pthread.h>
-#include <unistd.h>
-#include <stdlib.h>
-
+#include "philosophers.h"
 /*
 number_of_philosophers 
 time_to_die =>ms since last meal or begin
@@ -41,33 +37,44 @@ son second paramètre, un pointeur,
 permet de récupérer la valeur retournée par la fonction dans laquelle s'exécute le thread
 
 */
+pthread_mutex_t lock;
+
 void	*print(void	*nb)
 {
 	//(void)nb;
-	printf("%d\n", *(int *)nb);
+	pthread_mutex_lock(&lock);
+	printf("i = %d\n", *(int *)nb);
+	pthread_mutex_unlock(&lock);
 	pthread_exit(NULL);
+	//return NULL;
 }
 
 int	main()
 {
-	int check = 6;
-	pthread_t th;
-	void	*nb;
-	int	four= 4;
-	nb = &four;
+	pthread_t *th;
+	//pthread_t th[6];
+	int nb_philo = 6;
+	int	i = 0;
+	//philo	*philo_n;
 	
-	check = pthread_create(&th, NULL, print, nb);
-	if (check < 0)
+	th = malloc(sizeof(pthread_t) * nb_philo);
+	//philo_n = malloc(sizeof(philo) * nb_philo);
+	pthread_mutex_init(&lock, NULL);
+	while (i < nb_philo)
 	{
-		write(2, "Error\n", 6);
-		return (0);
+		//philo_n->var = i;
+		pthread_create(&(th[i]), NULL, print, &i);
+		printf("in 1------------ =%d\n", i);
+		i++;
 	}
-	check = pthread_join(th, NULL);
-	if (check < 0)
+	i = 0;
+	while (i < nb_philo)
 	{
-		write(2, "Error\n", 6);
-		return (0);
+		pthread_join(th[i], NULL);
+		printf("in 2---------------------------- =%d\n", i);
+		i++;
 	}
+	pthread_mutex_destroy(&lock);
 	return (0);
 }
 
