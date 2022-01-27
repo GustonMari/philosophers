@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/27 11:50:43 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/27 15:32:00 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_philo
 {
 	int	var;
 	int	index;
-	pthread_mutex_t mutex;
+	pthread_mutex_t fork;
 }				t_philo;
 
 /*
