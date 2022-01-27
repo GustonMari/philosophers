@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/26 15:59:50 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/27 11:50:43 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,29 @@
 # include <pthread.h>
 # include <unistd.h>
 # include <stdlib.h>
+# include <sys/time.h>
 
-typedef struct philo
+# define EAT 2
+# define SLEEP 3
+# define DIE 4
+
+
+/*
+			STRUCT
+*/
+
+typedef struct s_philo
 {
 	int	var;
+	int	index;
 	pthread_mutex_t mutex;
-}				philo;
+}				t_philo;
+
+/*
+			UTILS
+*/
+
+int	ft_atoi(const char *str);
+
 
 #endif

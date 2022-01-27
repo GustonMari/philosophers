@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 10:09:12 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/26 17:06:51 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/27 14:05:36 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,29 +37,84 @@ son second paramètre, un pointeur,
 permet de récupérer la valeur retournée par la fonction dans laquelle s'exécute le thread
 
 */
-pthread_mutex_t lock;
 
 void	*print(void	*nb)
 {
-	//(void)nb;
-	pthread_mutex_lock(&lock);
-	printf("i = %d\n", *(int *)nb);
-	pthread_mutex_unlock(&lock);
+	(void)nb;
 	pthread_exit(NULL);
-	//return NULL;
 }
 
+int	main(int ac, char **av)
+{
+	(void)ac;
+	pthread_t *th;
+	int nb_philo = ft_atoi(av[1]);
+	int	i = 0;
+	pthread_mutex_t *fork;
+	t_philo *philo;
+	
+	th = malloc(sizeof(pthread_t) * nb_philo);
+	philo = malloc(sizeof(t_philo) * nb_philo);
+	fork = malloc(sizeof(pthread_mutex_t) * nb_philo);
+	while (i < nb_philo)
+	{
+		pthread_create(&(th[i]), NULL, print, &philo[i]);
+		pthread_mutex_init(&fork[i], NULL);
+		i++;
+	}
+	i = 0;
+	while (i < nb_philo)
+	{
+		pthread_join(th[i], NULL);
+		i++;
+	}
+	i = 0;
+	//while (i < nb_philo)
+	//{
+	//	pthread_mutex_destroy(&fork[i]);
+	//	i++;
+	//}
+	return (0);
+}
+
+
+//unint64_t	ft_chrono(void)
+//{
+//	//struct timeval start;
+//	struct timeval end;
+//	//gettimeofday(&start, NULL);
+//	//usleep(10000);
+//	gettimeofday(&end, NULL);
+//	return (((unint64_t)end.tv_sec) * 1000 + (((unint64_t)end.tv_usec) / 1000000));
+//	//return ((end.tv_sec - start.tv_sec) + ((end.tv_usec - start.tv_usec) / 1000000.0));
+//	//return ((end.tv_sec - start.tv_sec) + ((end.tv_usec - start.tv_usec) / 1000000.0));
+//	//return ((end.tv_sec - start.tv_sec) * 1000.0 + ((end.tv_usec - start.tv_usec)));
+//}
+//
+//int	main(int ac, char **av)
+//{
+//	(void)ac;
+//	(void)av;
+//	while (1)
+//	{
+//		//printf("%f", ft_chrono());
+//		fprintf(stderr, "%f\n", ft_chrono());
+//	}
+//	return (0);
+//}
+/*
 int	main()
 {
 	pthread_t *th;
 	//pthread_t th[6];
-	int nb_philo = 6;
+	int nb_philo = ft_atoi(av[1]);
 	int	i = 0;
+	pthread_mutex_t *fork;
 	//philo	*philo_n;
 	
 	th = malloc(sizeof(pthread_t) * nb_philo);
 	//philo_n = malloc(sizeof(philo) * nb_philo);
-	pthread_mutex_init(&lock, NULL);
+	pthread_mutex_init(&fork, NULL);
 	while (i < nb_philo)
 	{
 		//philo_n->var = i;
@@ -74,7 +129,7 @@ int	main()
 		printf("in 2---------------------------- =%d\n", i);
 		i++;
 	}
-	pthread_mutex_destroy(&lock);
+	pthread_mutex_destroy(&fork);
 	return (0);
 }
-
+*/
