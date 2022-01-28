@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/28 14:33:42 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/28 17:42:01 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 /*
 			STRUCT
 */
-typedef struct s_info
+typedef struct	s_info
 {
 	unsigned int	t_eat;
 	unsigned int	t_die;
@@ -38,7 +38,7 @@ typedef struct s_info
 	unsigned int	f_right;
 }				t_info;
 
-typedef struct s_philo
+typedef struct	s_philo
 {
 	int				var;
 	int				index;
@@ -46,8 +46,10 @@ typedef struct s_philo
 	pthread_t 		thread;
 	t_info			*info;
 	pthread_mutex_t	*fork;
+	pthread_mutex_t	l_meal;
+	int				start;
 	struct timeval	begin;
-	
+	int				dead;
 }				t_philo;
 
 /*

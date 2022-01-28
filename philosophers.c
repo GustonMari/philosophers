@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 10:09:12 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/28 14:56:00 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/28 17:37:09 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,13 @@ t_info	pars_info(int ac, char **av)
 t_philo	*init_philo(t_info info, t_philo *philo)
 {
 	unsigned int	i;
-	//int	start;
-	struct timeval start;
+	int	start;
+	//struct timeval start;
 
-	gettimeofday(&start, NULL);
+	//gettimeofday(&start, NULL);
 	i = 0;
 	philo->fork = malloc(sizeof(pthread_mutex_t) * info.nb_phil);
-	//start = ft_time();
+	start = ft_time();
 	while (i < info.nb_phil)
 	{
 		philo[i].info->nb_phil = info.nb_phil;
@@ -122,7 +122,9 @@ t_philo	*init_philo(t_info info, t_philo *philo)
 		philo[i].info->f_left = i;
 		philo[i].info->f_right = (i + 1) % info.nb_phil;
 		philo[i].index = i + 1;
-		philo[i].begin = start;
+		philo[i].dead = 0;
+		//philo[i].begin = start;
+		philo[i].start = start;
 		pthread_mutex_init(&philo[i].fork[i] ,NULL);
 		i++;
 	}
