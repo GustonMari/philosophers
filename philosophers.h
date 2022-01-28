@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/28 17:56:33 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/28 18:15:45 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 /*
 			STRUCT
 */
+
 typedef struct	s_info
 {
 	unsigned int	t_eat;
@@ -52,6 +53,12 @@ typedef struct	s_philo
 	int				dead;
 }				t_philo;
 
+typedef struct	s_global
+{
+	int	dead;
+	t_philo	*philo;
+}				t_global;
+
 /*
 			UTILS
 */
@@ -66,7 +73,7 @@ unsigned int	ft_time(void);
 /*
 			THREAD FUNCTION
 */
-int	ft_dispatch(t_philo *philo);
+int	ft_dispatch(t_global all);
 
 
 #endif

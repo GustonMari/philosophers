@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 10:09:12 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/28 17:37:09 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/28 18:15:49 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ t_info	pars_info(int ac, char **av)
 	return (info);
 }
 
-t_philo	*init_philo(t_info info, t_philo *philo)
+t_global	init_philo(t_info info, t_global all)
 {
 	unsigned int	i;
 	int	start;
@@ -110,37 +110,40 @@ t_philo	*init_philo(t_info info, t_philo *philo)
 
 	//gettimeofday(&start, NULL);
 	i = 0;
-	philo->fork = malloc(sizeof(pthread_mutex_t) * info.nb_phil);
+	all.philo->fork = malloc(sizeof(pthread_mutex_t) * info.nb_phil);
 	start = ft_time();
 	while (i < info.nb_phil)
 	{
-		philo[i].info->nb_phil = info.nb_phil;
-		philo[i].info->t_die = info.t_die;
-		philo[i].info->t_eat = info.t_eat;
-		philo[i].info->t_sleep = info.t_sleep;
-		philo[i].info->nb_eat = info.nb_eat;
-		philo[i].info->f_left = i;
-		philo[i].info->f_right = (i + 1) % info.nb_phil;
-		philo[i].index = i + 1;
-		philo[i].dead = 0;
+		all.philo[i].info->nb_phil = info.nb_phil;
+		all.philo[i].info->t_die = info.t_die;
+		all.philo[i].info->t_eat = info.t_eat;
+		all.philo[i].info->t_sleep = info.t_sleep;
+		all.philo[i].info->nb_eat = info.nb_eat;
+		all.philo[i].info->f_left = i;
+		all.philo[i].info->f_right = (i + 1) % info.nb_phil;
+		all.philo[i].index = i + 1;
+		all.dead = 0;
+		//all.philo[i].dead = 0;
 		//philo[i].begin = start;
-		philo[i].start = start;
-		pthread_mutex_init(&philo[i].fork[i] ,NULL);
+		all.philo[i].start = start;
+		//pthread_mutex_init(&philo[i].fork[i] ,NULL);
 		i++;
 	}
-	return (philo);
+	return (all);
 }
 
 int	start(t_info info)
 {
-	t_philo	*philo;
+	t_global all;
+	//t_philo	*philo;
 	//pthread_mutex_
 
-	philo = malloc(sizeof(t_philo) * info.nb_phil);
+	all.philo = malloc(sizeof(t_philo) * info.nb_phil);
 
 	//philo[i]
-	philo = init_philo(info, philo);
-	ft_dispatch(philo);
+	//philo = init_philo(info, philo);
+	init_philo(info, all);
+	ft_dispatch(all);
 	return (0);
 }
 
