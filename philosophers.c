@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 10:09:12 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/27 17:14:17 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/28 14:56:00 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,102 +38,119 @@ permet de récupérer la valeur retournée par la fonction dans laquelle s'exéc
 
 */
 
-void	ft_sleep(int i)
+//void	ft_sleep(int i)
+//{
+//	
+//}
+//
+//void	ft_eating(int i)
+//{
+//	
+//}
+//
+//void	*philosopher(void	*nb)
+//{
+//	(void)nb;
+//	while (1)
+//	{
+//		ft_sleep();
+//		ft_take_fork()
+//		ft_eating()
+//		ft_drop_fork()
+//	}
+//	//pthread_exit(NULL);
+//}
+
+int	ft_isdigit(int c)
 {
-	
+	if (c < 48 || c > 57)
+		return (0);
+	else
+		return (1);
 }
 
-void	ft_eating(int i)
+int	check(int ac, char **av)
 {
-	
-}
+	int	i;
+	int	j;
 
-void	*philosopher(void	*nb)
-{
-	(void)nb;
-	while (1)
+	i = 1;
+	while (i < ac)
 	{
-		ft_sleep();
-		ft_take_fork()
-		ft_eating()
-		ft_drop_fork()
+		j = 0;
+		while(av[i][j])
+		{
+			if (!ft_isdigit(av[i][j]))
+				return (0);
+			j++;
+		}
+		i++;
 	}
-	//pthread_exit(NULL);
+	return (1);
+}
+
+t_info	pars_info(int ac, char **av)
+{
+	t_info info;
+
+	info.nb_phil = ft_atoi(av[1]);
+	info.t_die = ft_atoi(av[2]);
+	info.t_eat = ft_atoi(av[3]);
+	info.t_sleep = ft_atoi(av[4]);
+	if (ac == 6)
+		info.nb_eat = ft_atoi(av[5]);
+	return (info);
+}
+
+t_philo	*init_philo(t_info info, t_philo *philo)
+{
+	unsigned int	i;
+	//int	start;
+	struct timeval start;
+
+	gettimeofday(&start, NULL);
+	i = 0;
+	philo->fork = malloc(sizeof(pthread_mutex_t) * info.nb_phil);
+	//start = ft_time();
+	while (i < info.nb_phil)
+	{
+		philo[i].info->nb_phil = info.nb_phil;
+		philo[i].info->t_die = info.t_die;
+		philo[i].info->t_eat = info.t_eat;
+		philo[i].info->t_sleep = info.t_sleep;
+		philo[i].info->nb_eat = info.nb_eat;
+		philo[i].info->f_left = i;
+		philo[i].info->f_right = (i + 1) % info.nb_phil;
+		philo[i].index = i + 1;
+		philo[i].begin = start;
+		pthread_mutex_init(&philo[i].fork[i] ,NULL);
+		i++;
+	}
+	return (philo);
+}
+
+int	start(t_info info)
+{
+	t_philo	*philo;
+	//pthread_mutex_
+
+	philo = malloc(sizeof(t_philo) * info.nb_phil);
+
+	//philo[i]
+	philo = init_philo(info, philo);
+	ft_dispatch(philo);
+	return (0);
 }
 
 int	main(int ac, char **av)
 {
-	(void)ac;
-	pthread_t *th;
-	int nb_philo = ft_atoi(av[1]);
-	int	i = 0;
-	//pthread_mutex_t *fork;
-	t_philo *philo;
-	
-	th = malloc(sizeof(pthread_t) * nb_philo);
-	philo = malloc(sizeof(t_philo) * nb_philo);
-	//fork = malloc(sizeof(pthread_mutex_t) * nb_philo);
-	while (i < nb_philo)
+	//t_info info;
+
+	if (ac < 5 || ac > 6 || !check(ac, av))
 	{
-		philo[i].index = i;
-		pthread_create(&(th[i]), NULL, philosopher, &philo[i]);
-		pthread_mutex_init(&philo[i].fork, NULL);
-		//pthread_mutex_init(&fork[i], NULL);
-		i++;
+		write(1, "No no no, not good arguments\n", 29);
+		return (0);
 	}
-	i = 0;
-	while (i < nb_philo)
-	{
-		pthread_join(th[i], NULL);
-		i++;
-	}
-	i = 0;
-	//while (i < nb_philo)
-	//{
-	//	pthread_mutex_destroy(&fork[i]);
-	//	i++;
-	//}
+	start(pars_info(ac, av));
 	return (0);
 }
-
-int	ft_chrono(void)
-{
-	struct timeval start;
-	struct timeval end;
-	gettimeofday(&start, NULL);
-	usleep(15000);
-	gettimeofday(&end, NULL);
-	return ((end.tv_sec - start.tv_sec) + ((end.tv_usec - start.tv_usec) / 1000));
-}
-
-/*
-int	main()
-{
-	pthread_t *th;
-	//pthread_t th[6];
-	int nb_philo = ft_atoi(av[1]);
-	int	i = 0;
-	pthread_mutex_t *fork;
-	//philo	*philo_n;
-	
-	th = malloc(sizeof(pthread_t) * nb_philo);
-	//philo_n = malloc(sizeof(philo) * nb_philo);
-	pthread_mutex_init(&fork, NULL);
-	while (i < nb_philo)
-	{
-		//philo_n->var = i;
-		pthread_create(&(th[i]), NULL, print, &i);
-		printf("in 1------------ =%d\n", i);
-		i++;
-	}
-	i = 0;
-	while (i < nb_philo)
-	{
-		pthread_join(th[i], NULL);
-		printf("in 2---------------------------- =%d\n", i);
-		i++;
-	}
-	pthread_mutex_destroy(&fork);
-	return (0);
-}
-*/

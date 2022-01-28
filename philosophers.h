@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/27 15:32:00 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/28 14:33:42 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,27 @@
 /*
 			STRUCT
 */
+typedef struct s_info
+{
+	unsigned int	t_eat;
+	unsigned int	t_die;
+	unsigned int	t_sleep;
+	unsigned int	nb_phil;
+	unsigned int	nb_eat;
+	unsigned int	f_left;
+	unsigned int	f_right;
+}				t_info;
 
 typedef struct s_philo
 {
-	int	var;
-	int	index;
-	pthread_mutex_t fork;
+	int				var;
+	int				index;
+	double			eaten;
+	pthread_t 		thread;
+	t_info			*info;
+	pthread_mutex_t	*fork;
+	struct timeval	begin;
+	
 }				t_philo;
 
 /*
@@ -41,5 +56,9 @@ typedef struct s_philo
 
 int	ft_atoi(const char *str);
 
+/*
+			TIME FUNCTION
+*/
+int	ft_time(void);
 
 #endif
