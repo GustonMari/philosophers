@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/28 17:42:01 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/28 17:56:33 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,12 @@ int	ft_atoi(const char *str);
 /*
 			TIME FUNCTION
 */
-int	ft_time(void);
+unsigned int	ft_time(void);
+
+/*
+			THREAD FUNCTION
+*/
+int	ft_dispatch(t_philo *philo);
+
 
 #endif

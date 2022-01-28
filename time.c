@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 13:43:08 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/28 14:01:06 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/28 17:56:25 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_chrono(void)
 	return ((end.tv_sec - start.tv_sec) + ((end.tv_usec - start.tv_usec) / 1000));
 }
 
-int	ft_time(void)
+unsigned int	ft_time(void)
 {
 	struct timeval	tv;
 
