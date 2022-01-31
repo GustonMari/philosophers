@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/31 15:36:48 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/31 16:17:36 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # define EAT 2
 # define SLEEP 3
 # define DIE 1
+# define ALIVE 0
 
 
 /*
@@ -35,8 +36,6 @@ typedef struct	s_info
 	unsigned int	t_sleep;
 	unsigned int	nb_phil;
 	unsigned int	nb_eat;
-	unsigned int	f_left;
-	unsigned int	f_right;
 }				t_info;
 
 typedef struct	s_philo
@@ -87,6 +86,11 @@ unsigned int	ft_time(void);
 			THREAD FUNCTION
 */
 int	ft_dispatch(t_global *all);
+
+/*
+			ERROR & CLEAN
+*/
+void	ft_print_error(int	msg);
 
 
 #endif

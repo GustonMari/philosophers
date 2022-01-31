@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 10:09:12 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/31 15:35:49 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/31 16:41:39 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,30 +110,26 @@ void	init_philo(t_global *all)
 
 	i = 0;
 	all->philo = malloc(sizeof(t_global) * all->nb_phil);
+	if (!all->philo)
+		ft_print_error(3);
 	all->fork = malloc(sizeof(pthread_mutex_t) * all->nb_phil);
+	if (!all->fork)
+		ft_print_error(3);
 	start = ft_time();
 	while (i < all->nb_phil)
 	{
-		//all->philo[i].info->nb_phil = all->nb_phil;
-		//printf("init i = %u\n", info->nb_phil);
-		//all->philo[i].info->t_die = info->t_die;
-		//printf("init i = %u\n", info->t_die);
-		//all->philo[i].info->t_eat = info->t_eat;
-		//printf("init i = %u\n", info->t_eat);
-		//all->philo[i].info->t_sleep = info->t_sleep;
-		//printf("init i = %u\n", info->t_sleep);
-		//all->philo[i].info->nb_eat = info->nb_eat;
-		//printf("init i = %u\n", info->nb_eat);
-		//all->philo[i].info->f_left = i;
-		//all->philo[i].info->f_right = (i + 1) % info->nb_phil;
 		all->philo[i].index = i + 1;
 		all->dead = 0;
 		all->philo[i].count = 0;
+		if ((pthread_mutex_init(&all->fork[i], NULL)) != 0)
+			ft_print_error(1);
 		//pthread_mutex_init(&all->fork[i], NULL);
-		//pthread_mutex_init(&all->philo[i].l_meal, NULL);
+		if ((pthread_mutex_init(&all->philo[i].l_meal, NULL)) != 0)
+			ft_print_error(2);
 		//ou placer start ???
 		//all->start = start;
 		all->philo[i].start = start;
+		all->philo[i].all = all;
 		i++;
 	}
 	//return (all);
@@ -154,12 +150,45 @@ int	start(t_global *all)
 
 	//NE PAS OUBLIER DE FREE ALL
 
-	return (0);
+	return (2);
 }
 
-void	ft_clean_all(void)
+void	destroy_fork(pthread_mutex_t *fork, t_global *all)
 {
+	size_t	i;
+
+	i = 0;
+	while (i < all->nb_phil)
+	{
+		if(pthread_mutex_destroy(&fork[i]) != 0)
+			ft_print_error(4);
+		i++;
+	}
+	//free(fork);
+}
+
+void	ft_clean_all(t_global *all)
+{
+	unsigned int	i;
+
+	i = 0;
 	write(1, "cleaning all\n", 13);
+	destroy_fork(all->fork, all);
+		//while (i < all->nb_phil)
+		//{
+			//pthread_mutex_destroy(&all->fork[i]);
+			//i++;
+		//}
+	//i = 0;
+	//while (i < all->nb_phil)
+	//{
+	//	pthread_mutex_destroy(&all->philo[i].l_meal);
+	//	i++;
+	//}
+	//free(all->fork);
+	//free(&all->philo->l_meal);
+	free(all->philo);
+	
 	// a remplir
 }
 
@@ -176,6 +205,7 @@ int	main(int ac, char **av)
 	}
 	//pars_info(ac, av, &info);
 	if(start(pars_info(ac, av, &all)) == 2)
-		ft_clean_all();
+		write(1, "end", 3);
+		//ft_clean_all(&all);
 	return (0);
 }

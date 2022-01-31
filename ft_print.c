@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:22:00 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/31 12:05:54 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/31 17:59:31 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,21 @@ void	ft_putnbr(int n)
 	ft_putchar(nbr % 10 + '0');
 }
 
+void	ft_print_error(int	msg)
+{
+	if (msg == 1)
+		write(2, "fork mutex failed to init\n", 26);
+	if (msg == 2)
+		write(2, "l_meal mutex failed to init\n", 28);
+	if (msg == 3)
+		write(2, "malloc failed to allocate\n", 26);
+	if (msg == 4)
+		write(2, "destroy mutex fork failed\n", 26);
+	if (msg == 5)
+		write(2, "mutex_create failed\n", 20);
+	exit(0);
+}
+
 void	print(t_philo *philo, int msg)
 {
 	ft_putnbr(ft_time() - philo->start);
@@ -48,5 +63,4 @@ void	print(t_philo *philo, int msg)
 		write(1, " is dead X_X\n", 13);
 	if (msg == 3)
 		write(1, " is eating!\n", 12);
-	
 }

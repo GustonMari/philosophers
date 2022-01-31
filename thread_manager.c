@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/31 15:36:32 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/31 18:07:32 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,12 @@ void	ft_take_fk(t_philo *philo)
 	print(philo, 1);
 }
 
-void	*routine_(t_philo *philo)
+void	*routine_phil(void *content)
 {
-	//bizare la double imbrication na pas lair de fonctionee
-	while (philo->all->dead == 0)
+	t_philo	*philo;
+
+	philo = content;
+	while (philo->all->dead == ALIVE)
 	{
 		//ft_take_fk(philo);
 		//ft_eat(philo);
@@ -75,9 +77,6 @@ void	*routine_(t_philo *philo)
 	return (NULL);
 }
 
-//IL FAUT CREE UNE STRUCT STATE AVEC DDS MES PHILOS ET SI LON EST VIVANT OU PAS 
-// POUR AVOIR UN VARIABLE DEAD COMMUN A TOUS MES PHILOS
-
 int	ft_dispatch(t_global *all)
 {
 	//pthread_t		th;
@@ -86,6 +85,10 @@ int	ft_dispatch(t_global *all)
 	i = 0;
 	while (i < all->nb_phil)
 	{
+		//ft_take_fk(&all->philo[i]);
+		if (pthread_create(&all->philo[i].thread, NULL, routine_phil, (void *)&all->philo[i]))
+			ft_print_error(5);
+		
 		//if (pthread_create(&philo[i].thread, NULL, &ft_check_death, (void *)&philo[i]))
 		//	return(2);
 		i++;
@@ -93,7 +96,7 @@ int	ft_dispatch(t_global *all)
 	i = 0;
 	while (i < all->nb_phil)
 	{
-		//pthread_join(philo[i].thread, NULL);
+		pthread_join(all->philo[i].thread, NULL);
 		i++;
 	}
 	return (0);
