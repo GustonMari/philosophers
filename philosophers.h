@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/31 11:57:23 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/31 13:55:36 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct	s_philo
 	double			eaten;
 	pthread_t 		thread;
 	t_info			*info;
-	pthread_mutex_t	*fork;
+	//pthread_mutex_t	*fork;
 	pthread_mutex_t	l_meal;
 	int				start;
 	int				t_lmeal;
@@ -58,8 +58,9 @@ typedef struct	s_philo
 
 typedef struct	s_global
 {
-	int		dead;
-	t_philo	*philo;
+	int				dead;
+	pthread_mutex_t	*fork;
+	t_philo			*philo;
 }				t_global;
 
 /*
@@ -67,7 +68,7 @@ typedef struct	s_global
 */
 
 int	ft_atoi(const char *str);
-void	print(t_philo philo, int msg);
+void	print(t_philo *philo, int msg);
 
 /*
 			TIME FUNCTION

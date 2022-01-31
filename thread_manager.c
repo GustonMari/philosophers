@@ -6,57 +6,57 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/31 11:58:10 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/31 14:09:35 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	ft_check_death(t_philo philo)
+int	ft_check_death(t_philo *philo)
 {
-	while(philo.dead == 0)
+	while(philo->dead == 0)
 	{
-		pthread_mutex_lock(&philo.l_meal);
+		pthread_mutex_lock(&philo->l_meal);
 //		if (philo.start - ft_time() > philo.info->t_die)
-		if (philo.t_lmeal - ft_time() > philo.info->t_die)
+		if (philo->t_lmeal - ft_time() > philo->info->t_die)
 		{
 			print(philo, 2);
 			//printf("philo died");
-			pthread_mutex_unlock(&philo.l_meal);
-			philo.dead = 1;
+			pthread_mutex_unlock(&philo->l_meal);
+			philo->dead = 1;
 			//peut etre plus exit quon devrait utiliser ??
 			return (0);
 		}
-		pthread_mutex_unlock(&philo.l_meal);
+		pthread_mutex_unlock(&philo->l_meal);
 	}
 	return (0);
 }
 
-void	ft_drop_fk(t_philo philo)
+void	ft_drop_fk(t_philo *philo)
 {
-	pthread_mutex_unlock(&philo.fork[philo.index]);
+	pthread_mutex_unlock(&philo->all->fork[philo->index]);
 	print(philo, 1);
-	pthread_mutex_unlock(&philo.fork[(philo.index + 1) % philo.info->nb_phil]);
+	pthread_mutex_unlock(&philo->all->fork[(philo->index + 1) % philo->info->nb_phil]);
 	print(philo, 1);
 }
 
-void	ft_eat(t_philo philo)
+void	ft_eat(t_philo *philo)
 {
-	//pthread_mutex_lock(&philo.l_meal);
-	//philo.t_lmeal = ft_time();
-	////inclure un check dead ici ??
-	//philo.count += 1;
-	//print(philo, 3);
-	//usleep(philo.info->t_eat * 1000);
-	//pthread_mutex_unlock(&philo.l_meal);
+	pthread_mutex_lock(&philo->l_meal);
+	philo->t_lmeal = ft_time();
+	//inclure un check dead ici ??
+	philo->count += 1;
+	print(philo, 3);
+	usleep(philo->info->t_eat * 1000);
+	pthread_mutex_unlock(&philo->l_meal);
 }
 
 void	ft_take_fk(t_philo *philo)
 {
-	//pthread_mutex_lock(&philo.fork[philo.index]);
-	//print(philo, 1);
-	//pthread_mutex_lock(&philo.fork[(philo.index + 1) % philo.info->nb_phil]);
-	//print(philo, 1);
+	pthread_mutex_lock(&philo->all->fork[philo->index]);
+	print(philo, 1);
+	pthread_mutex_lock(&philo->all->fork[(philo->index + 1) % philo->info->nb_phil]);
+	print(philo, 1);
 }
 
 void	*routine_(t_philo *philo)
@@ -64,7 +64,7 @@ void	*routine_(t_philo *philo)
 	//bizare la double imbrication na pas lair de fonctionee
 	while (philo->all->dead == 0)
 	{
-		ft_take_fk(philo);
+		//ft_take_fk(philo);
 		//ft_eat(philo);
 		//cree une condi en plus pour si ce n'est pas specifie
 		if(philo->info->nb_eat <= philo->count)

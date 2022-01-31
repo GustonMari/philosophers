@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:22:00 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/31 11:31:51 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/31 12:05:54 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ void	ft_putnbr(int n)
 	ft_putchar(nbr % 10 + '0');
 }
 
-void	print(t_philo philo, int msg)
+void	print(t_philo *philo, int msg)
 {
-	ft_putnbr(ft_time() - philo.start);
+	ft_putnbr(ft_time() - philo->start);
 	write(1, "Philosopher ", 12);
-	ft_putnbr(philo.index);
+	ft_putnbr(philo->index);
 	if (msg == 1)
 		write(1, " has taken a fork!\n", 19);
 	if (msg == 2)
