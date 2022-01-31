@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 10:09:12 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/31 10:05:28 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/31 11:31:43 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,10 @@ t_global	init_philo(t_info info, t_global all)
 		all.philo[i].info->f_right = (i + 1) % info.nb_phil;
 		all.philo[i].index = i + 1;
 		all.dead = 0;
-		all.count_eat = 0;
+		all.philo[i].count = 0;
+		pthread_mutex_init(&all.philo->fork[i], NULL);
+		//pthread_mutex_init(&all.philo[i]->fork, NULL);
+		pthread_mutex_init(&all.philo->l_meal, NULL);
 		//all.philo[i].dead = 0;
 		//philo[i].begin = start;
 		all.philo[i].start = start;

@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/31 10:05:04 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/31 11:57:23 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,13 @@ typedef struct	s_philo
 	int				t_lmeal;
 	struct timeval	begin;
 	int				dead;
+	unsigned int	count;
+	struct s_global	*all;
 }				t_philo;
 
 typedef struct	s_global
 {
 	int		dead;
-	int		count_eat;
 	t_philo	*philo;
 }				t_global;
 
@@ -66,6 +67,7 @@ typedef struct	s_global
 */
 
 int	ft_atoi(const char *str);
+void	print(t_philo philo, int msg);
 
 /*
 			TIME FUNCTION
