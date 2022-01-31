@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/31 13:55:36 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/31 15:36:48 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 # define EAT 2
 # define SLEEP 3
-# define DIE 4
+# define DIE 1
 
 
 /*
@@ -59,6 +59,14 @@ typedef struct	s_philo
 typedef struct	s_global
 {
 	int				dead;
+	unsigned int	t_eat;
+	unsigned int	t_die;
+	unsigned int	t_sleep;
+	unsigned int	nb_phil;
+	unsigned int	nb_eat;
+	unsigned int	f_left;
+	unsigned int	f_right;
+	unsigned int	start;
 	pthread_mutex_t	*fork;
 	t_philo			*philo;
 }				t_global;
@@ -78,7 +86,7 @@ unsigned int	ft_time(void);
 /*
 			THREAD FUNCTION
 */
-int	ft_dispatch(t_global all);
+int	ft_dispatch(t_global *all);
 
 
 #endif

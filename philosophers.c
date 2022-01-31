@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 10:09:12 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/31 15:01:33 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/31 15:35:49 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,34 +89,32 @@ int	check(int ac, char **av)
 	return (1);
 }
 
-t_info	*pars_info(int ac, char **av, t_info *info)
+t_global	*pars_info(int ac, char **av, t_global *all)
 {
 	//t_info *info = NULL;
 
-	info->nb_phil = ft_atoi(av[1]);
-	info->t_die = ft_atoi(av[2]);
-	info->t_eat = ft_atoi(av[3]);
-	info->t_sleep = ft_atoi(av[4]);
+	all->nb_phil = ft_atoi(av[1]);
+	all->t_die = ft_atoi(av[2]);
+	all->t_eat = ft_atoi(av[3]);
+	all->t_sleep = ft_atoi(av[4]);
 	if (ac == 6)
-		info->nb_eat = ft_atoi(av[5]);
-	return (info);
+		all->nb_eat = ft_atoi(av[5]);
+	return (all);
 }
 
 //t_global	init_philo(t_info info, t_global *all)
-void	init_philo(t_info *info, t_global *all)
+void	init_philo(t_global *all)
 {
 	unsigned int	i;
 	int	start;
 
 	i = 0;
-	all->philo = malloc(sizeof(t_global) * info->nb_phil);
-	all->fork = malloc(sizeof(pthread_mutex_t) * info->nb_phil);
+	all->philo = malloc(sizeof(t_global) * all->nb_phil);
+	all->fork = malloc(sizeof(pthread_mutex_t) * all->nb_phil);
 	start = ft_time();
-	while (i < info->nb_phil)
+	while (i < all->nb_phil)
 	{
-		printf("boucle %u", info->nb_phil);
-
-		all->philo[i].info->nb_phil = info->nb_phil;
+		//all->philo[i].info->nb_phil = all->nb_phil;
 		//printf("init i = %u\n", info->nb_phil);
 		//all->philo[i].info->t_die = info->t_die;
 		//printf("init i = %u\n", info->t_die);
@@ -128,28 +126,31 @@ void	init_philo(t_info *info, t_global *all)
 		//printf("init i = %u\n", info->nb_eat);
 		//all->philo[i].info->f_left = i;
 		//all->philo[i].info->f_right = (i + 1) % info->nb_phil;
-		//all->philo[i].index = i + 1;
-		//all->dead = 0;
-		//all->philo[i].count = 0;
+		all->philo[i].index = i + 1;
+		all->dead = 0;
+		all->philo[i].count = 0;
 		//pthread_mutex_init(&all->fork[i], NULL);
 		//pthread_mutex_init(&all->philo[i].l_meal, NULL);
-		//all->philo[i].start = start;
+		//ou placer start ???
+		//all->start = start;
+		all->philo[i].start = start;
 		i++;
 	}
 	//return (all);
 }
 
-int	start(t_info *info)
+int	start(t_global *all)
 {
-	t_global *all = NULL;
+	//t_global *all = NULL;
 	//t_philo	*philo;
 	//pthread_mutex_
 
 	//(void)info;
 	//(void)all;
 	//all = malloc(sizeof(t_global));
-	init_philo(info, all);
-	//ft_dispatch(all);
+	init_philo(all);
+
+	ft_dispatch(all);
 
 	//NE PAS OUBLIER DE FREE ALL
 
@@ -164,16 +165,17 @@ void	ft_clean_all(void)
 
 int	main(int ac, char **av)
 {
-	t_info info;
+	//t_info info;
+	t_global	all;
 
-
+	//memset(&base, 0, sizeof(t_base));
 	if (ac < 5 || ac > 6 || !check(ac, av))
 	{
 		write(1, "No no no, not good arguments\n", 29);
 		return (0);
 	}
 	//pars_info(ac, av, &info);
-	if(start(pars_info(ac, av, &info)) == 2)
+	if(start(pars_info(ac, av, &all)) == 2)
 		ft_clean_all();
 	return (0);
 }
