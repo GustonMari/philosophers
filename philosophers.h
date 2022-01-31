@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/28 18:15:45 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/31 10:05:04 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,15 @@ typedef struct	s_philo
 	pthread_mutex_t	*fork;
 	pthread_mutex_t	l_meal;
 	int				start;
+	int				t_lmeal;
 	struct timeval	begin;
 	int				dead;
 }				t_philo;
 
 typedef struct	s_global
 {
-	int	dead;
+	int		dead;
+	int		count_eat;
 	t_philo	*philo;
 }				t_global;
 

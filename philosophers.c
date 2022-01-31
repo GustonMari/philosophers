@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 10:09:12 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/28 18:15:49 by gmary            ###   ########.fr       */
+/*   Updated: 2022/01/31 10:05:28 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ t_global	init_philo(t_info info, t_global all)
 		all.philo[i].info->f_right = (i + 1) % info.nb_phil;
 		all.philo[i].index = i + 1;
 		all.dead = 0;
+		all.count_eat = 0;
 		//all.philo[i].dead = 0;
 		//philo[i].begin = start;
 		all.philo[i].start = start;
@@ -147,6 +148,12 @@ int	start(t_info info)
 	return (0);
 }
 
+void	ft_clean_all(void)
+{
+	write(1, "cleaning all\n", 13);
+	// a remplir
+}
+
 int	main(int ac, char **av)
 {
 	//t_info info;
@@ -156,6 +163,7 @@ int	main(int ac, char **av)
 		write(1, "No no no, not good arguments\n", 29);
 		return (0);
 	}
-	start(pars_info(ac, av));
+	if(start(pars_info(ac, av)) == 2)
+		ft_clean_all();
 	return (0);
 }
