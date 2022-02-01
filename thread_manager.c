@@ -6,36 +6,13 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/01 17:30:41 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/01 18:06:21 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-//int	ft_check_death(void *args)
-int	ft_is_dead(t_philo *philo)
-{
-	//t_philo *philo;
 
-	//philo = (t_philo *)args;
-	if (philo->all->dead == DEAD)
-		return (1);
-	pthread_mutex_lock(&philo->l_meal);
-	if (philo->all->dead == ALIVE)
-	{
-//		if (philo.start - ft_time() > philo.info->t_die)
-		if (ft_time() - philo->t_lmeal >= philo->all->t_die)
-		{
-			print(philo, 2);
-			pthread_mutex_unlock(&philo->l_meal);
-			philo->all->dead = DEAD;
-			//peut etre plus exit quon devrait utiliser ??
-			return (1);
-		}
-	}
-	pthread_mutex_unlock(&philo->l_meal);
-	return (0);
-}
 
 /*
 	ici jai index - 1 et index (et pas index et index + 1 % nb_phil
@@ -76,18 +53,6 @@ int	ft_sleep(t_philo *philo)
 	return (0);
 }
 
-int	ft_check_death(t_philo *philo)
-{
-	unsigned int	i = 0;
-
-	while (i < philo->all->nb_phil)
-	{
-		if (philo[i].all->dead == DEAD)
-			return (1);
-		i++;
-	}
-	return (0);
-}
 //le pgm continue de tourner lorsque || philo->all->nb_eat <= philo->count est en condition
 
 void	*routine_phil(void *content)
@@ -134,33 +99,6 @@ void	*routine_phil(void *content)
 	return (NULL);
 }
 
-void	ft_all_dead(t_philo *philo)
-{
-	unsigned int	i = 0;
-
-	while (i < philo->all->nb_phil)
-	{
-		philo->all->dead = DEAD;
-		i++;
-	}
-}
-
-int	ft_check_meal(t_philo *philo)
-{
-	unsigned int i = 0;
-	unsigned int eat = 0;
-
-	while (i < philo->all->nb_phil)
-	{
-		if (philo[i].count >= philo->all->nb_eat)
-			eat++;
-		if (eat == philo->all->nb_eat)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
 int	ft_dispatch(t_global *all)
 {
 	//pthread_t		th;
@@ -180,7 +118,7 @@ int	ft_dispatch(t_global *all)
 	}
 	while (all->dead == ALIVE)
 	{
-		if (all->nb_eat > 0 && ft_check_meal(all->philo))
+		if ((all->nb_eat > 0) && ft_check_meal(all->philo))
 		{
 			ft_all_dead(all->philo);
 			break ;

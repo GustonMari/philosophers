@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/01 10:00:02 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/01 18:06:46 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,11 @@ unsigned int	ft_time(void);
 /*
 			THREAD FUNCTION
 */
-int	ft_dispatch(t_global *all);
+int		ft_dispatch(t_global *all);
+int		ft_is_dead(t_philo *philo);
+int		ft_check_death(t_philo *philo);
+void	ft_all_dead(t_philo *philo);
+int		ft_check_meal(t_philo *philo);
 
 /*
 			ERROR & CLEAN
