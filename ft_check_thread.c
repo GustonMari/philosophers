@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 17:58:13 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/01 18:06:19 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/01 18:38:41 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,16 @@ int	ft_check_meal(t_philo *philo)
 	while (i < philo->all->nb_phil)
 	{
 		if (philo[i].count >= philo->all->nb_eat)
+		{
 			eat++;
-		if (eat == philo->all->nb_eat)
+			//fprintf(stderr, "eat %d\n", eat);
+		}
+		if (eat == philo->all->nb_phil)
+		{
+			fprintf(stderr, "IN-----------------------\n");
 			return (1);
+		}
 		i++;
 	}
 	return (0);
 }
-

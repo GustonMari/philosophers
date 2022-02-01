@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/01 18:06:21 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/01 18:22:22 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ int	ft_dispatch(t_global *all)
 			ft_all_dead(all->philo);
 			break ;
 		}
+		//fprintf(stderr, "2 i =%d\n", i);
 	}
 	i = 0;
 	while (i < all->nb_phil)
