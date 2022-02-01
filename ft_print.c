@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:22:00 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/01 10:45:23 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/01 11:25:15 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	ft_print_error(int	msg)
 		write(2, "mutex_create failed\n", 20);
 	if (msg == 6)
 		write(2, "print mutex failed to init\n", 27);
+	if (msg == 7)
+		write(2, "join failed\n", 12);
 	exit(0);
 }
 
