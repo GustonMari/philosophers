@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/31 16:17:36 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/01 10:00:02 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 
 # define EAT 2
 # define SLEEP 3
-# define DIE 1
+# define DEAD 1
 # define ALIVE 0
 
 
@@ -47,8 +47,8 @@ typedef struct	s_philo
 	t_info			*info;
 	//pthread_mutex_t	*fork;
 	pthread_mutex_t	l_meal;
-	int				start;
-	int				t_lmeal;
+	unsigned int	start;
+	unsigned int	t_lmeal;
 	struct timeval	begin;
 	int				dead;
 	unsigned int	count;
@@ -67,6 +67,7 @@ typedef struct	s_global
 	unsigned int	f_right;
 	unsigned int	start;
 	pthread_mutex_t	*fork;
+	pthread_mutex_t	print;
 	t_philo			*philo;
 }				t_global;
 

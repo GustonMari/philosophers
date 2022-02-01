@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:22:00 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/31 17:59:31 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/01 10:17:25 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,16 @@ void	ft_print_error(int	msg)
 		write(2, "destroy mutex fork failed\n", 26);
 	if (msg == 5)
 		write(2, "mutex_create failed\n", 20);
+	if (msg == 6)
+		write(2, "print mutex failed to init\n", 27);
 	exit(0);
 }
 
 void	print(t_philo *philo, int msg)
 {
-	ft_putnbr(ft_time() - philo->start);
-	write(1, "Philosopher ", 12);
+	pthread_mutex_lock(&philo->all->print);
+	ft_putnbr((ft_time() - (philo->start)));
+	write(1, " ms Philosopher ", 16);
 	ft_putnbr(philo->index);
 	if (msg == 1)
 		write(1, " has taken a fork!\n", 19);
@@ -63,4 +66,5 @@ void	print(t_philo *philo, int msg)
 		write(1, " is dead X_X\n", 13);
 	if (msg == 3)
 		write(1, " is eating!\n", 12);
+	pthread_mutex_unlock(&philo->all->print);
 }

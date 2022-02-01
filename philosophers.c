@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 10:09:12 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/31 16:41:39 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/01 10:39:54 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,8 @@ void	init_philo(t_global *all)
 		all->philo[i].all = all;
 		i++;
 	}
+	if (pthread_mutex_init(&all->print, NULL) != 0)
+		ft_print_error(6);
 	//return (all);
 }
 
@@ -188,7 +190,7 @@ void	ft_clean_all(t_global *all)
 	//free(all->fork);
 	//free(&all->philo->l_meal);
 	free(all->philo);
-	
+	//destroy le print
 	// a remplir
 }
 
@@ -209,3 +211,18 @@ int	main(int ac, char **av)
 		//ft_clean_all(&all);
 	return (0);
 }
+
+//int	main()
+//{
+//	unsigned int start;
+//	unsigned int actual;
+//
+//	start = ft_time();
+//	while (1)
+//	{
+//		actual = ft_time() - start;
+//		fprintf(stderr, "%u\n", actual);
+//		usleep(200 * 1000);
+//	}
+//	return (0);
+//}
