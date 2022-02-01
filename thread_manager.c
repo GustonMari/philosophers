@@ -6,19 +6,23 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/01 14:38:20 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/01 15:20:48 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-int	ft_check_death(t_philo *philo)
+//int	ft_check_death(void *args)
+int	ft_is_dead(t_philo *philo)
 {
+	//t_philo *philo;
+
+	//philo = (t_philo *)args;
 	if (philo->all->dead == DEAD)
 		return (1);
+	pthread_mutex_lock(&philo->l_meal);
 	if (philo->all->dead == ALIVE)
 	{
-		pthread_mutex_lock(&philo->l_meal);
 //		if (philo.start - ft_time() > philo.info->t_die)
 		if (ft_time() - philo->t_lmeal >= philo->all->t_die)
 		{
@@ -28,8 +32,8 @@ int	ft_check_death(t_philo *philo)
 			//peut etre plus exit quon devrait utiliser ??
 			return (1);
 		}
-		pthread_mutex_unlock(&philo->l_meal);
 	}
+	pthread_mutex_unlock(&philo->l_meal);
 	return (0);
 }
 
@@ -51,8 +55,6 @@ void	ft_eat(t_philo *philo)
 	philo->t_lmeal = ft_time();
 	//inclure un check dead ici ??
 	philo->count += 1;
-	//if (philo->t_lmeal - philo->start >= philo->all->t_die)
-	//	philo->all->dead = DEAD;
 	print(philo, 3);
 	usleep(philo->all->t_eat * 1000);
 	pthread_mutex_unlock(&philo->l_meal);
@@ -74,7 +76,18 @@ int	ft_sleep(t_philo *philo)
 	return (0);
 }
 
+int	ft_check_death(t_philo *philo)
+{
+	unsigned int	i = 0;
 
+	while (i < philo->all->nb_phil)
+	{
+		if (philo[i].all->dead == DEAD)
+			return (1);
+		i++;
+	}
+	return (0);
+}
 //le pgm continue de tourner lorsque || philo->all->nb_eat <= philo->count est en condition
 
 void	*routine_phil(void *content)
@@ -110,6 +123,7 @@ void	*routine_phil(void *content)
 			break ;
 		}
 		//cree une condi en plus pour si ce n'est pas specifie le nb de repas
+		ft_is_dead(philo);
 		if(ft_check_death(philo))
 			break ;
 		if (ft_sleep(philo))
@@ -132,6 +146,7 @@ int	ft_dispatch(t_global *all)
 		//ft_take_fk(&all->philo[i]);
 		if (pthread_create(&all->philo[i].thread, NULL, &routine_phil, (void *)&all->philo[i]) != 0)
 			ft_print_error(5);
+		//pthread_detach(all->philo[i].thread);
 		//if (pthread_create(&philo[i].thread, NULL, &ft_check_death, (void *)&philo[i]))
 		//	return(2);
 
