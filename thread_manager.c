@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/01 13:50:12 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/01 14:38:20 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,15 @@ int	ft_check_death(t_philo *philo)
 {
 	if (philo->all->dead == DEAD)
 		return (1);
-	while(philo->all->dead == ALIVE)
+	if (philo->all->dead == ALIVE)
 	{
 		pthread_mutex_lock(&philo->l_meal);
 //		if (philo.start - ft_time() > philo.info->t_die)
 		if (ft_time() - philo->t_lmeal >= philo->all->t_die)
 		{
 			print(philo, 2);
-			printf("philo died");
 			pthread_mutex_unlock(&philo->l_meal);
-			philo->all->dead = 1;
+			philo->all->dead = DEAD;
 			//peut etre plus exit quon devrait utiliser ??
 			return (1);
 		}
@@ -75,6 +74,9 @@ int	ft_sleep(t_philo *philo)
 	return (0);
 }
 
+
+//le pgm continue de tourner lorsque || philo->all->nb_eat <= philo->count est en condition
+
 void	*routine_phil(void *content)
 {
 	t_philo	*philo;
@@ -92,13 +94,7 @@ void	*routine_phil(void *content)
 		if (philo->all->dead == DEAD)
 			break ;
 		ft_eat(philo);
-		if(philo->all->nb_eat <= philo->count)
-		{
-			pthread_mutex_lock(&philo->all->print);
-			fprintf(stderr, "miam regalade\n");
-			pthread_mutex_unlock(&philo->all->print);
-			break ;
-		}
+		ft_drop_fk(philo);
 		if(philo->all->dead == DEAD)
 		{
 			pthread_mutex_lock(&philo->all->print);
@@ -106,11 +102,15 @@ void	*routine_phil(void *content)
 			pthread_mutex_unlock(&philo->all->print);
 			break ;
 		}
-		//cree une condi en plus pour si ce n'est pas specifie le nb de repas
-		ft_drop_fk(philo);
-		if(ft_check_death(philo))
+		if(philo->all->nb_eat <= philo->count)
+		{
+			pthread_mutex_lock(&philo->all->print);
+			fprintf(stderr, "miam regalade %d\n", philo->index);
+			pthread_mutex_unlock(&philo->all->print);
 			break ;
-		if (philo->all->dead == DEAD)
+		}
+		//cree une condi en plus pour si ce n'est pas specifie le nb de repas
+		if(ft_check_death(philo))
 			break ;
 		if (ft_sleep(philo))
 			break ;
