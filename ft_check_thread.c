@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 17:58:13 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/01 18:38:41 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/01 18:57:28 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,10 @@ int	ft_check_meal(t_philo *philo)
 		}
 		if (eat == philo->all->nb_phil)
 		{
+			pthread_mutex_lock(&philo->all->print);
+			write(1, "everyone ate!\n", 14);
 			fprintf(stderr, "IN-----------------------\n");
+			pthread_mutex_unlock(&philo->all->print);
 			return (1);
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/01 18:22:22 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/01 18:56:39 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@ void	ft_drop_fk(t_philo *philo)
 
 void	ft_eat(t_philo *philo)
 {
+	if (philo->all->nb_eat <= philo->count)
+	{
+		pthread_mutex_unlock(&philo->all->fork[philo->index - 1]);
+		pthread_mutex_unlock(&philo->all->fork[(philo->index) % philo->all->nb_phil]);
+		return ;
+	}
 	pthread_mutex_lock(&philo->l_meal);
 	philo->t_lmeal = ft_time();
 	//inclure un check dead ici ??
@@ -67,19 +73,24 @@ void	*routine_phil(void *content)
 	while (philo->all->dead == ALIVE)
 	{
 		//fprintf(stderr, "i =%d\n", i);
+		if (philo->all->dead == DEAD || philo->all->nb_eat <= philo->count)
+			break ;
 		ft_take_fk(philo);
 		//fprintf(stderr, "2 i =%d\n", i);
 		if (philo->all->dead == DEAD)
 			break ;
+		//unlock fork dans eat ou cas ou ou on aurait deja manger suffisament
 		ft_eat(philo);
-		ft_drop_fk(philo);
-		if(philo->all->dead == DEAD)
-		{
-			pthread_mutex_lock(&philo->all->print);
-			fprintf(stderr, "dead poto\n");
-			pthread_mutex_unlock(&philo->all->print);
+		if (philo->all->dead == DEAD)
 			break ;
-		}
+		ft_drop_fk(philo);
+		//if(philo->all->dead == DEAD)
+		//{
+		//	pthread_mutex_lock(&philo->all->print);
+		//	fprintf(stderr, "dead poto\n");
+		//	pthread_mutex_unlock(&philo->all->print);
+		//	break ;
+		//}
 		if(philo->all->nb_eat <= philo->count)
 		{
 			pthread_mutex_lock(&philo->all->print);
