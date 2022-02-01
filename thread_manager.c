@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/01 15:20:48 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/01 17:30:41 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,9 @@ void	*routine_phil(void *content)
 			pthread_mutex_unlock(&philo->all->print);
 			break ;
 		}
-		//cree une condi en plus pour si ce n'est pas specifie le nb de repas
-		ft_is_dead(philo);
-		if(ft_check_death(philo))
+		if (philo->all->dead == DEAD)
 			break ;
+		//cree une condi en plus pour si ce n'est pas specifie le nb de repas
 		if (ft_sleep(philo))
 			break ;
 		if (philo->all->dead == DEAD)
@@ -133,6 +132,33 @@ void	*routine_phil(void *content)
 		i++;
 	}
 	return (NULL);
+}
+
+void	ft_all_dead(t_philo *philo)
+{
+	unsigned int	i = 0;
+
+	while (i < philo->all->nb_phil)
+	{
+		philo->all->dead = DEAD;
+		i++;
+	}
+}
+
+int	ft_check_meal(t_philo *philo)
+{
+	unsigned int i = 0;
+	unsigned int eat = 0;
+
+	while (i < philo->all->nb_phil)
+	{
+		if (philo[i].count >= philo->all->nb_eat)
+			eat++;
+		if (eat == philo->all->nb_eat)
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
 int	ft_dispatch(t_global *all)
@@ -151,6 +177,19 @@ int	ft_dispatch(t_global *all)
 		//	return(2);
 
 		i++;
+	}
+	while (all->dead == ALIVE)
+	{
+		if (all->nb_eat > 0 && ft_check_meal(all->philo))
+		{
+			ft_all_dead(all->philo);
+			break ;
+		}
+		if(ft_check_death(all->philo))
+		{
+			ft_all_dead(all->philo);
+			break ;
+		}
 	}
 	i = 0;
 	while (i < all->nb_phil)
