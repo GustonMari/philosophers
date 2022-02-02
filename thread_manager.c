@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/02 15:30:09 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/02 16:02:40 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,21 @@
 	ici jai index - 1 et index (et pas index et index + 1 % nb_phil
 	tout simplement car l'index commence a 1
 */
-void	ft_drop_fk(t_philo *philo)
+int	ft_drop_fk(t_philo *philo)
 {
+	if (philo->all->dead == DEAD)
+		return (1);
 	if (philo->all->nb_phil == 1)
 	{
 		pthread_mutex_lock(&philo->all->fork[0]);
 		print(philo, 4);
-		return ;
+		return (0) ;
 	}
 	pthread_mutex_unlock(&philo->all->fork[philo->index - 1]);
 	print(philo, 4);
 	pthread_mutex_unlock(&philo->all->fork[(philo->index) % philo->all->nb_phil]);
 	print(philo, 4);
+	return (0);
 }
 
 int	ft_eat(t_philo *philo)
@@ -113,7 +116,8 @@ void	*routine_phil(void *content)
 			break ;
 		//if (philo->all->dead == DEAD)
 		//	break ;
-		ft_drop_fk(philo);
+		if (ft_drop_fk(philo))
+			break ;
 		if(philo->all->nb_eat <= philo->count)
 		{
 			pthread_mutex_lock(&philo->all->print);
@@ -158,11 +162,13 @@ int	ft_dispatch(t_global *all)
 			ft_all_dead(all->philo);
 			break ;
 		}
+		pthread_mutex_lock(&all->check);
 		if(ft_check_death(all->philo))
 		{
 			ft_all_dead(all->philo);
 			break ;
 		}
+		pthread_mutex_unlock(&all->check);
 		//fprintf(stderr, "2 i =%d\n", i);
 	}
 	i = 0;
