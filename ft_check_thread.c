@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 17:58:13 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/02 12:09:28 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/02 14:13:29 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ int	ft_is_dead(t_philo *philo)
 	//t_philo *philo;
 
 	//philo = (t_philo *)args;
-	usleep(700);
 	if (philo->all->dead == DEAD)
 		return (1);
+	usleep(700);
 	pthread_mutex_lock(&philo->l_meal);
 	if (philo->all->dead == ALIVE)
 	{
