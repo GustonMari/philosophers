@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:22:00 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/01 11:25:15 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/02 12:18:36 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,7 @@ void	print(t_philo *philo, int msg)
 		write(1, " is eating!\n", 12);
 	if (msg == 4)
 		write(1, " has drop a fork!\n", 18);
+	if (msg == 5)
+		write(1, " is sleeping!\n", 14);
 	pthread_mutex_unlock(&philo->all->print);
 }
