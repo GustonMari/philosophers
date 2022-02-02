@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/02 09:58:37 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/02 10:53:33 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	ft_eat(t_philo *philo)
 	if (philo->all->nb_phil == 1)
 	{
 		pthread_mutex_unlock(&philo->l_meal);
+		print(philo, 4);
 		return ;
 	}
 	if (philo->all->nb_eat <= philo->count && philo->all->nb_eat > 0)
@@ -142,6 +143,7 @@ int	ft_dispatch(t_global *all)
 	}
 	while (all->dead == ALIVE)
 	{
+		usleep(400);
 		if ((all->nb_eat > 0) && ft_check_meal(all->philo))
 		{
 			ft_all_dead(all->philo);

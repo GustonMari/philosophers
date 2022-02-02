@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 10:09:12 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/01 13:40:41 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/02 10:44:38 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void	init_philo(t_global *all)
 		//all->start = start;
 		all->philo[i].start = start;
 		all->philo[i].all = all;
+		all->philo[i].t_lmeal = ft_time();
 		i++;
 	}
 	if (pthread_mutex_init(&all->print, NULL) != 0)
