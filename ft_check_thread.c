@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 17:58:13 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/01 18:57:28 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/02 10:13:50 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ int	ft_check_death(t_philo *philo)
 
 	while (i < philo->all->nb_phil)
 	{
-		if (philo[i].all->dead == DEAD)
+		if (ft_is_dead(&philo[i]))
 			return (1);
+		//if (philo[i].all->dead == DEAD)
+		//	return (1);
 		i++;
 	}
 	return (0);
