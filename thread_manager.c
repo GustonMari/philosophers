@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/02 10:53:33 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/02 11:03:41 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_drop_fk(t_philo *philo)
 	if (philo->all->nb_phil == 1)
 	{
 		pthread_mutex_lock(&philo->all->fork[0]);
-		print(philo, 1);
+		print(philo, 4);
 		return ;
 	}
 	pthread_mutex_unlock(&philo->all->fork[philo->index - 1]);
@@ -35,11 +35,9 @@ void	ft_drop_fk(t_philo *philo)
 void	ft_eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->l_meal);
-	philo->t_lmeal = ft_time();
 	if (philo->all->nb_phil == 1)
 	{
 		pthread_mutex_unlock(&philo->l_meal);
-		print(philo, 4);
 		return ;
 	}
 	if (philo->all->nb_eat <= philo->count && philo->all->nb_eat > 0)
@@ -49,6 +47,7 @@ void	ft_eat(t_philo *philo)
 		return ;
 	}
 	//inclure un check dead ici ??
+	philo->t_lmeal = ft_time();
 	philo->count += 1;
 	print(philo, 3);
 	usleep(philo->all->t_eat * 1000);

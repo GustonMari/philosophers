@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 17:58:13 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/02 10:46:27 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/02 11:04:44 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	ft_is_dead(t_philo *philo)
 		if (ft_time() - philo->t_lmeal >= philo->all->t_die)
 		{
 			usleep(800);
-			fprintf(stderr, "%u - %u >= %u\n", ft_time(), philo->t_lmeal, philo->all->t_die );
 			print(philo, 2);
 			pthread_mutex_unlock(&philo->l_meal);
 			philo->all->dead = DEAD;
