@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 17:58:13 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/02 14:13:29 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/02 15:46:51 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,22 +20,28 @@ int	ft_is_dead(t_philo *philo)
 	//philo = (t_philo *)args;
 	if (philo->all->dead == DEAD)
 		return (1);
+	
+	//fprintf(stderr, "------------------ %u %u\n", (ft_time() - philo->t_lmeal), philo->all->t_die);
 	usleep(700);
-	pthread_mutex_lock(&philo->l_meal);
+	//pthread_mutex_lock(&philo->l_meal);
+	pthread_mutex_lock(&philo->check);
 	if (philo->all->dead == ALIVE)
 	{
 		if (ft_time() - philo->t_lmeal >= philo->all->t_die)
 		{
+			//fprintf(stderr, "%u %u\n", (ft_time() - philo->t_lmeal), philo->all->t_die);
 			philo->all->dead = DEAD;
 			usleep(800);
 			print(philo, 2);
-			pthread_mutex_unlock(&philo->l_meal);
+			pthread_mutex_unlock(&philo->check);
+			//pthread_mutex_unlock(&philo->l_meal);
 			//philo->all->dead = DEAD;
 			//peut etre plus exit quon devrait utiliser ??
 			return (1);
 		}
 	}
-	pthread_mutex_unlock(&philo->l_meal);
+	pthread_mutex_unlock(&philo->check);
+	//pthread_mutex_unlock(&philo->l_meal);
 	return (0);
 }
 

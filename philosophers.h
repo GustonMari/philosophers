@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/01 18:06:46 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/02 15:45:15 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct	s_philo
 	t_info			*info;
 	//pthread_mutex_t	*fork;
 	pthread_mutex_t	l_meal;
+	pthread_mutex_t	check;
 	unsigned int	start;
 	unsigned int	t_lmeal;
 	struct timeval	begin;

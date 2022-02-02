@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/02 14:35:38 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/02 15:30:09 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,13 @@ void	*routine_phil(void *content)
 		if (ft_take_fk(philo))
 			break ;
 		//fprintf(stderr, "2 i =%d\n", i);
-		if (philo->all->dead == DEAD)
-			break ;
+		//if (philo->all->dead == DEAD)
+		//	break ;
 		//unlock fork dans eat ou cas ou ou on aurait deja manger suffisament
 		if (ft_eat(philo))
 			break ;
-		if (philo->all->dead == DEAD)
-			break ;
+		//if (philo->all->dead == DEAD)
+		//	break ;
 		ft_drop_fk(philo);
 		if(philo->all->nb_eat <= philo->count)
 		{
@@ -147,7 +147,6 @@ int	ft_dispatch(t_global *all)
 		//pthread_detach(all->philo[i].thread);
 		//if (pthread_create(&philo[i].thread, NULL, &ft_check_death, (void *)&philo[i]))
 		//	return(2);
-
 		i++;
 	}
 	while (all->dead == ALIVE)
