@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/02 15:55:27 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/02 17:32:18 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void	print(t_philo *philo, int msg);
 			TIME FUNCTION
 */
 unsigned int	ft_time(void);
+void			ft_sleep_t(size_t ms);
+
 
 /*
 			THREAD FUNCTION

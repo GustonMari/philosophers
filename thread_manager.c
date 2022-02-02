@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/02 16:02:40 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/02 17:39:20 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,14 @@
 */
 int	ft_drop_fk(t_philo *philo)
 {
-	if (philo->all->dead == DEAD)
-		return (1);
 	if (philo->all->nb_phil == 1)
 	{
-		pthread_mutex_lock(&philo->all->fork[0]);
+		pthread_mutex_unlock(&philo->all->fork[0]);
 		print(philo, 4);
 		return (0) ;
 	}
+	if (philo->all->dead == DEAD)
+		return (1);
 	pthread_mutex_unlock(&philo->all->fork[philo->index - 1]);
 	print(philo, 4);
 	pthread_mutex_unlock(&philo->all->fork[(philo->index) % philo->all->nb_phil]);
@@ -52,16 +52,20 @@ int	ft_eat(t_philo *philo)
 		return (0);
 	}
 	//inclure un check dead ici ??
-	philo->t_lmeal = ft_time();
+	//philo->t_lmeal = ft_time();
+	//philo->t_lmeal = ft_time();
 	philo->count += 1;
 	print(philo, 3);
-	usleep(philo->all->t_eat * 1000);
+	philo->t_lmeal = ft_time();
+	ft_sleep_t(philo->all->t_eat);
+	//usleep(philo->all->t_eat * 1000);
 	pthread_mutex_unlock(&philo->l_meal);
 	return (0);
 }
 
 int	ft_take_fk(t_philo *philo)
 {
+	//if (philo->all->dead == DEAD)
 	if (philo->all->dead == DEAD || philo->all->nb_eat <= philo->count)
 		return (1);
 	if (philo->all->nb_phil == 1)
@@ -85,7 +89,8 @@ int	ft_sleep(t_philo *philo)
 	if (philo->all->dead == DEAD)
 		return (1);
 	print(philo, 5);
-	usleep(philo->all->t_sleep * 1000);
+	ft_sleep_t(philo->all->t_sleep);
+	//usleep(philo->all->t_sleep * 1000);
 	return (0);
 }
 
@@ -98,7 +103,8 @@ void	*routine_phil(void *content)
 
 	philo = (t_philo *)content;
 	if (philo->index % 2 == 0)
-		usleep(200);
+		usleep(100);
+		//usleep(200);
 		//usleep(1000);
 	//fprintf(stderr, "after\n");
 	while (philo->all->dead == ALIVE)
@@ -155,8 +161,8 @@ int	ft_dispatch(t_global *all)
 	}
 	while (all->dead == ALIVE)
 	{
-		usleep(400);
-		//usleep(4000);
+		ft_sleep_t(4);
+		//usleep(400);
 		if ((all->nb_eat > 0) && ft_check_meal(all->philo))
 		{
 			ft_all_dead(all->philo);
@@ -172,6 +178,7 @@ int	ft_dispatch(t_global *all)
 		//fprintf(stderr, "2 i =%d\n", i);
 	}
 	i = 0;
+	fprintf(stderr, "before\n");
 	while (i < all->nb_phil)
 	{
 		if (pthread_join(all->philo[i].thread, NULL) != 0)

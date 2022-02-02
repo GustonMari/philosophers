@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 17:58:13 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/02 15:56:44 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/02 17:37:59 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ int	ft_is_dead(t_philo *philo)
 	//t_philo *philo;
 
 	//philo = (t_philo *)args;
+	//usleep(700);
 	if (philo->all->dead == DEAD)
 		return (1);
 	
 	//fprintf(stderr, "------------------ %u %u\n", (ft_time() - philo->t_lmeal), philo->all->t_die);
-	usleep(700);
 	//pthread_mutex_lock(&philo->l_meal);
 	//pthread_mutex_lock(&philo->check);
 	if (philo->all->dead == ALIVE)
@@ -49,6 +49,8 @@ int	ft_check_death(t_philo *philo)
 {
 	unsigned int	i = 0;
 
+	ft_sleep_t(7);
+	//usleep(700);
 	while (i < philo->all->nb_phil)
 	{
 		if (ft_is_dead(&philo[i]))

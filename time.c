@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 13:43:08 by gmary             #+#    #+#             */
-/*   Updated: 2022/01/28 17:56:25 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/02 17:33:41 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,3 +29,15 @@ unsigned int	ft_time(void)
 	gettimeofday(&tv, NULL);
 	return ((tv.tv_sec * 1000 + tv.tv_usec / 1000));
 }
+
+void	ft_sleep_t(size_t ms)
+{
+	size_t	curr;
+	size_t	end;
+
+	curr = ft_time();
+	end = curr + ms;
+	while (ft_time() < end)
+		usleep(100);
+}
+
