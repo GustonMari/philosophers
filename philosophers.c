@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 10:09:12 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/03 13:50:58 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/03 15:28:34 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,29 +38,6 @@ permet de récupérer la valeur retournée par la fonction dans laquelle s'exéc
 
 */
 
-//void	ft_sleep(int i)
-//{
-//	
-//}
-//
-//void	ft_eating(int i)
-//{
-//	
-//}
-//
-//void	*philosopher(void	*nb)
-//{
-//	(void)nb;
-//	while (1)
-//	{
-//		ft_sleep();
-//		ft_take_fork()
-//		ft_eating()
-//		ft_drop_fork()
-//	}
-//	//pthread_exit(NULL);
-//}
-
 int	ft_isdigit(int c)
 {
 	if (c < 48 || c > 57)
@@ -91,8 +68,6 @@ int	check(int ac, char **av)
 
 t_global	*pars_info(int ac, char **av, t_global *all)
 {
-	//t_info *info = NULL;
-
 	all->nb_phil = ft_atoi(av[1]);
 	all->t_die = ft_atoi(av[2]);
 	all->t_eat = ft_atoi(av[3]);
@@ -142,73 +117,7 @@ int	start(t_global *all)
 	return (2);
 }
 
-void	destroy_fork(pthread_mutex_t *fork, t_global *all)
-{
-	unsigned int	i;
-	int error;
 
-	i = 0;
-	while (i < all->nb_phil)
-	{
-		pthread_mutex_unlock(&fork[i]);
-		error = pthread_mutex_destroy(&fork[i]);
-		if(error != 0)
-		{
-			fprintf(stderr, "%d\n", error);
-			ft_print_error(4);
-		}
-		i++;
-	}
-	free(fork);
-}
-
-void	unlock_all(t_global *all)
-{
-	unsigned int	i;
-	int error;
-
-	i = 0;
-	pthread_mutex_unlock(&all->print);
-	pthread_mutex_unlock(&all->check);
-	while (i < all->nb_phil)
-	{
-		error = pthread_mutex_unlock(&all->fork[i]);
-		if(error != 0)
-		{
-			fprintf(stderr, "unlock -------------- %d\n", error);
-		}
-		i++;
-	}
-}
-
-void	ft_clean_all(t_global *all)
-{
-	unsigned int	i;
-
-	i = 0;
-	write(1, "cleaning all\n", 13);
-	sleep(1);
-	unlock_all(all);
-	if (all->fork)
-		destroy_fork(all->fork, all);
-	//destroy_fork(all->fork, all);
-		//while (i < all->nb_phil)
-		//{
-			//pthread_mutex_destroy(&all->fork[i]);
-			//i++;
-		//}
-	//i = 0;
-	//while (i < all->nb_phil)
-	//{
-	//	pthread_mutex_destroy(&all->philo[i].l_meal);
-	//	i++;
-	//}
-	//free(all->fork);
-	//free(&all->philo->l_meal);
-	free(all->philo);
-	//destroy le print
-	// a remplir
-}
 
 int	main(int ac, char **av)
 {

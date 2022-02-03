@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/03 13:59:30 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/03 15:28:28 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef struct	s_philo
 	pthread_t 		thread;
 	t_info			*info;
 	//pthread_mutex_t	*fork;
-	pthread_mutex_t	check;
+	//pthread_mutex_t	check;
 	pthread_mutex_t	l_meal;
 	unsigned int	start;
 	unsigned int	t_lmeal;
@@ -102,5 +102,8 @@ int		ft_check_meal(t_philo *philo);
 			ERROR & CLEAN
 */
 void	ft_print_error(int	msg);
+void	ft_clean_all(t_global *all);
+void	unlock_all(t_global *all);
+void	destroy_fork(pthread_mutex_t *fork, t_global *all);
 
 #endif
