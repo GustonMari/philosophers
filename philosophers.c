@@ -6,45 +6,11 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 10:09:12 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/03 15:28:34 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/03 16:08:50 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-/*
-number_of_philosophers 
-time_to_die =>ms since last meal or begin
-time_to_eat =>ms hold 2 fork
-time_to_sleep =>ms sleep
-[number_of_times_each_philosopher_must_eat] => (simulation stop)
-
-philo must be:
-- timestamp_in_ms X has taken a fork
-◦ timestamp_in_ms X is eating
-◦ timestamp_in_ms X is sleeping
-◦ timestamp_in_ms X is thinking
-◦ timestamp_in_ms X died
-
-A displayed state message should not be mixed up with another message
-
-A message announcing a philosopher died should be displayed no more than 10 ms
-after the actual death of the philosopher.
-*/
-////////////////////////////////////////////////////////////////////////
-/*
-exit on y mets null car on part du principe que create a marcher
-son second paramètre, un pointeur, 
-permet de récupérer la valeur retournée par la fonction dans laquelle s'exécute le thread
-
-*/
-
-int	ft_isdigit(int c)
-{
-	if (c < 48 || c > 57)
-		return (0);
-	else
-		return (1);
-}
 
 int	check(int ac, char **av)
 {
@@ -55,7 +21,7 @@ int	check(int ac, char **av)
 	while (i < ac)
 	{
 		j = 0;
-		while(av[i][j])
+		while (av[i][j])
 		{
 			if (!ft_isdigit(av[i][j]))
 				return (0);
@@ -77,13 +43,12 @@ t_global	*pars_info(int ac, char **av, t_global *all)
 	return (all);
 }
 
-//t_global	init_philo(t_info info, t_global *all)
 void	init_philo(t_global *all)
 {
 	unsigned int	i;
-	int	start;
+	int				start;
 
-	i = 0;
+	i = -1;
 	all->philo = malloc(sizeof(t_global) * all->nb_phil);
 	if (!all->philo)
 		ft_print_error(3);
@@ -91,19 +56,17 @@ void	init_philo(t_global *all)
 	if (!all->fork)
 		ft_print_error(3);
 	start = ft_time();
-	while (i < all->nb_phil)
+	while (++i < all->nb_phil)
 	{
 		all->philo[i].index = i + 1;
 		all->dead = 0;
 		all->philo[i].count = 0;
-		if ((pthread_mutex_init(&all->fork[i], NULL)) != 0)
+		if ((pthread_mutex_init(&all->fork[i], NULL)) != 0
+			|| (pthread_mutex_init(&all->philo[i].l_meal, NULL)) != 0)
 			ft_print_error(1);
-		if ((pthread_mutex_init(&all->philo[i].l_meal, NULL)) != 0)
-			ft_print_error(2);
 		all->philo[i].start = start;
 		all->philo[i].all = all;
 		all->philo[i].t_lmeal = ft_time();
-		i++;
 	}
 	if (pthread_mutex_init(&all->print, NULL) != 0)
 		ft_print_error(6);
@@ -113,11 +76,8 @@ int	start(t_global *all)
 {
 	init_philo(all);
 	ft_dispatch(all);
-	//NE PAS OUBLIER DE FREE ALL
 	return (2);
 }
-
-
 
 int	main(int ac, char **av)
 {
@@ -128,8 +88,8 @@ int	main(int ac, char **av)
 		write(1, "No no no, not good arguments\n", 29);
 		return (0);
 	}
-	if(start(pars_info(ac, av, &all)) == 2)
-		write(1, "end", 3);
+	if (start(pars_info(ac, av, &all)) == 2)
+		write(1, "end\n", 4);
 	ft_clean_all(&all);
 	return (0);
 }

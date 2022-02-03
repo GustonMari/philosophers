@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:22:00 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/03 15:31:51 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/03 17:08:45 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_putchar(char c)
 {
-	write(1, &c ,1);
+	write(1, &c, 1);
 }
 
 void	ft_putnbr(int n)
@@ -37,7 +37,7 @@ void	ft_putnbr(int n)
 	ft_putchar(nbr % 10 + '0');
 }
 
-void	ft_print_error(int	msg)
+void	ft_print_error(int msg)
 {
 	if (msg == 1)
 		write(2, "fork mutex failed to init\n", 26);

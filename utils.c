@@ -1,32 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/28 13:43:08 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/03 17:18:14 by gmary            ###   ########.fr       */
+/*   Created: 2022/02/03 16:06:53 by gmary             #+#    #+#             */
+/*   Updated: 2022/02/03 16:07:14 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-unsigned int	ft_time(void)
+int	ft_isdigit(int c)
 {
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000 + tv.tv_usec / 1000));
-}
-
-void	ft_sleep_t(size_t ms)
-{
-	unsigned int	curr;
-	unsigned int	end;
-
-	curr = ft_time();
-	end = curr + ms;
-	while (ft_time() < end)
-		usleep(100);
+	if (c < 48 || c > 57)
+		return (0);
+	else
+		return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/03 15:28:28 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/03 17:28:30 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@
 # define DEAD 1
 # define ALIVE 0
 
-
 /*
 			STRUCT
 */
 
-typedef struct	s_info
+typedef struct s_info
 {
 	unsigned int	t_eat;
 	unsigned int	t_die;
@@ -38,15 +37,13 @@ typedef struct	s_info
 	unsigned int	nb_eat;
 }				t_info;
 
-typedef struct	s_philo
+typedef struct s_philo
 {
 	int				var;
 	int				index;
 	double			eaten;
-	pthread_t 		thread;
+	pthread_t		thread;
 	t_info			*info;
-	//pthread_mutex_t	*fork;
-	//pthread_mutex_t	check;
 	pthread_mutex_t	l_meal;
 	unsigned int	start;
 	unsigned int	t_lmeal;
@@ -56,9 +53,7 @@ typedef struct	s_philo
 	struct s_global	*all;
 }				t_philo;
 
-//surement tej le mutex check en dans global
-
-typedef struct	s_global
+typedef struct s_global
 {
 	int				dead;
 	unsigned int	t_eat;
@@ -76,34 +71,41 @@ typedef struct	s_global
 }				t_global;
 
 /*
-			UTILS
-*/
-
-int	ft_atoi(const char *str);
-void	print(t_philo *philo, int msg);
-
-/*
 			TIME FUNCTION
 */
+
 unsigned int	ft_time(void);
 void			ft_sleep_t(size_t ms);
 
+/*
+			UTILS
+*/
+
+int				ft_atoi(const char *str);
+void			print(t_philo *philo, int msg);
+int				ft_isdigit(int c);
 
 /*
 			THREAD FUNCTION
 */
-int		ft_dispatch(t_global *all);
-int		ft_is_dead(t_philo *philo);
-int		ft_check_death(t_philo *philo);
-void	ft_all_dead(t_philo *philo);
-int		ft_check_meal(t_philo *philo);
+int				ft_dispatch(t_global *all);
+int				ft_is_dead(t_philo *philo);
+int				ft_check_death(t_philo *philo);
+//void			ft_all_dead(t_philo *philo);
+int				ft_all_dead(t_philo *philo);
+int				ft_check_meal(t_philo *philo);
+int				ft_sleep(t_philo *philo);
+int				ft_take_fk(t_philo *philo);
+int				ft_eat(t_philo *philo);
+int				ft_drop_fk(t_philo *philo);
 
 /*
 			ERROR & CLEAN
 */
-void	ft_print_error(int	msg);
-void	ft_clean_all(t_global *all);
-void	unlock_all(t_global *all);
-void	destroy_fork(pthread_mutex_t *fork, t_global *all);
+
+void			ft_print_error(int msg);
+void			ft_clean_all(t_global *all);
+void			unlock_all(t_global *all);
+void			destroy_fork(pthread_mutex_t *fork, t_global *all);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:26:57 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/03 15:48:42 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/03 16:13:05 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,50 +15,43 @@
 void	destroy_fork(pthread_mutex_t *fork, t_global *all)
 {
 	unsigned int	i;
-	int error;
+	int				error;
 
 	i = 0;
 	while (i < all->nb_phil)
 	{
-		//pthread_mutex_unlock(&fork[i]);
 		error = pthread_mutex_destroy(&fork[i]);
-		if(error != 0)
+		if (error != 0)
 		{
-			fprintf(stderr, "%d\n", error);
 			ft_print_error(4);
 		}
 		i++;
 	}
 	free(fork);
 }
+
 void	destroy_meal(t_global *all)
 {
 	unsigned int	i;
-	int error;
+	int				error;
 
 	i = 0;
 	while (i < all->nb_phil)
 	{
-		//pthread_mutex_unlock(&fork[i]);
 		error = pthread_mutex_destroy(&all->philo[i].l_meal);
-		//error = pthread_mutex_destroy(&fork[i]);
-		if(error != 0)
+		if (error != 0)
 		{
-			fprintf(stderr, "%d\n", error);
 			ft_print_error(8);
 			return ;
 		}
 		i++;
 	}
-	// TRES BIZARE A CHECKER !!!!!!
-	//free(&all->philo->l_meal);
-	//free(fork);
 }
 
 void	unlock_all(t_global *all)
 {
 	unsigned int	i;
-	int error;
+	int				error;
 
 	i = 0;
 	pthread_mutex_unlock(&all->print);
@@ -67,9 +60,9 @@ void	unlock_all(t_global *all)
 	{
 		error = pthread_mutex_unlock(&all->fork[i]);
 		error = pthread_mutex_unlock(&all->philo[i].l_meal);
-		if(error != 0)
+		if (error != 0)
 		{
-			fprintf(stderr, "unlock -------------- %d\n", error);
+			write(2, "Error unlocking\n", 16);
 		}
 		i++;
 	}
@@ -86,8 +79,5 @@ void	ft_clean_all(t_global *all)
 	destroy_meal(all);
 	pthread_mutex_destroy(&all->print);
 	pthread_mutex_destroy(&all->check);
-	//free(&all->philo->l_meal);
 	free(all->philo);
-	//destroy le print
-	// a remplir
 }
