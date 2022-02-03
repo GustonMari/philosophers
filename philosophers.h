@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/02 18:03:02 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/03 13:59:30 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,5 @@ int		ft_check_meal(t_philo *philo);
 			ERROR & CLEAN
 */
 void	ft_print_error(int	msg);
-
 
 #endif

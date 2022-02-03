@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 10:09:12 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/02 10:44:38 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/03 13:50:58 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,11 +123,8 @@ void	init_philo(t_global *all)
 		all->philo[i].count = 0;
 		if ((pthread_mutex_init(&all->fork[i], NULL)) != 0)
 			ft_print_error(1);
-		//pthread_mutex_init(&all->fork[i], NULL);
 		if ((pthread_mutex_init(&all->philo[i].l_meal, NULL)) != 0)
 			ft_print_error(2);
-		//ou placer start ???
-		//all->start = start;
 		all->philo[i].start = start;
 		all->philo[i].all = all;
 		all->philo[i].t_lmeal = ft_time();
@@ -135,39 +132,53 @@ void	init_philo(t_global *all)
 	}
 	if (pthread_mutex_init(&all->print, NULL) != 0)
 		ft_print_error(6);
-	//return (all);
 }
 
 int	start(t_global *all)
 {
-	//t_global *all = NULL;
-	//t_philo	*philo;
-	//pthread_mutex_
-
-	//(void)info;
-	//(void)all;
-	//all = malloc(sizeof(t_global));
 	init_philo(all);
-
 	ft_dispatch(all);
-
 	//NE PAS OUBLIER DE FREE ALL
-
 	return (2);
 }
 
 void	destroy_fork(pthread_mutex_t *fork, t_global *all)
 {
-	size_t	i;
+	unsigned int	i;
+	int error;
 
 	i = 0;
 	while (i < all->nb_phil)
 	{
-		if(pthread_mutex_destroy(&fork[i]) != 0)
+		pthread_mutex_unlock(&fork[i]);
+		error = pthread_mutex_destroy(&fork[i]);
+		if(error != 0)
+		{
+			fprintf(stderr, "%d\n", error);
 			ft_print_error(4);
+		}
 		i++;
 	}
-	//free(fork);
+	free(fork);
+}
+
+void	unlock_all(t_global *all)
+{
+	unsigned int	i;
+	int error;
+
+	i = 0;
+	pthread_mutex_unlock(&all->print);
+	pthread_mutex_unlock(&all->check);
+	while (i < all->nb_phil)
+	{
+		error = pthread_mutex_unlock(&all->fork[i]);
+		if(error != 0)
+		{
+			fprintf(stderr, "unlock -------------- %d\n", error);
+		}
+		i++;
+	}
 }
 
 void	ft_clean_all(t_global *all)
@@ -176,7 +187,11 @@ void	ft_clean_all(t_global *all)
 
 	i = 0;
 	write(1, "cleaning all\n", 13);
-	destroy_fork(all->fork, all);
+	sleep(1);
+	unlock_all(all);
+	if (all->fork)
+		destroy_fork(all->fork, all);
+	//destroy_fork(all->fork, all);
 		//while (i < all->nb_phil)
 		//{
 			//pthread_mutex_destroy(&all->fork[i]);
@@ -197,33 +212,15 @@ void	ft_clean_all(t_global *all)
 
 int	main(int ac, char **av)
 {
-	//t_info info;
 	t_global	all;
 
-	//memset(&base, 0, sizeof(t_base));
 	if (ac < 5 || ac > 6 || !check(ac, av))
 	{
 		write(1, "No no no, not good arguments\n", 29);
 		return (0);
 	}
-	//pars_info(ac, av, &info);
 	if(start(pars_info(ac, av, &all)) == 2)
 		write(1, "end", 3);
-		//ft_clean_all(&all);
+	ft_clean_all(&all);
 	return (0);
 }
-
-//int	main()
-//{
-//	unsigned int start;
-//	unsigned int actual;
-//
-//	start = ft_time();
-//	while (1)
-//	{
-//		actual = ft_time() - start;
-//		fprintf(stderr, "%u\n", actual);
-//		usleep(200 * 1000);
-//	}
-//	return (0);
-//}

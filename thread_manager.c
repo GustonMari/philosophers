@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/03 11:04:05 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/03 13:59:39 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,18 @@ int	ft_take_fk(t_philo *philo)
 	{
 		pthread_mutex_lock(&philo->all->fork[philo->index - 1]);
 		if (philo->all->dead == DEAD || philo->all->nb_eat <= philo->count)
+		{
+			pthread_mutex_unlock(&philo->all->fork[philo->index - 1]);
 			return (1);
+		}
 		print(philo, 1);
 		pthread_mutex_lock(&philo->all->fork[(philo->index) % philo->all->nb_phil]);
 		if (philo->all->dead == DEAD || philo->all->nb_eat <= philo->count)
+		{
+			pthread_mutex_unlock(&philo->all->fork[philo->index - 1]);
+			pthread_mutex_unlock(&philo->all->fork[(philo->index) % philo->all->nb_phil]);
 			return (1);
+		}
 		print(philo, 1);
 	}
 	return (0);
@@ -110,7 +117,7 @@ int	ft_sleep(t_philo *philo)
 void	*routine_phil(void *content)
 {
 	t_philo	*philo;
-	unsigned int i = 0;
+	//unsigned int i = 0;
 
 	philo = (t_philo *)content;
 	if (philo->index % 2 == 0)
@@ -150,7 +157,7 @@ void	*routine_phil(void *content)
 		if (philo->all->dead == DEAD)
 			break ;
 	}
-	fprintf(stderr, "i =%d\n", i);
+	//fprintf(stderr, "i =%d\n", i);
 	return (NULL);
 }
 
