@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/02 17:32:18 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/02 18:03:02 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct	s_philo
 	pthread_t 		thread;
 	t_info			*info;
 	//pthread_mutex_t	*fork;
+	pthread_mutex_t	check;
 	pthread_mutex_t	l_meal;
 	unsigned int	start;
 	unsigned int	t_lmeal;
@@ -54,6 +55,8 @@ typedef struct	s_philo
 	unsigned int	count;
 	struct s_global	*all;
 }				t_philo;
+
+//surement tej le mutex check en dans global
 
 typedef struct	s_global
 {

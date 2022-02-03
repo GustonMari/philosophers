@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 17:58:13 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/02 17:37:59 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/03 11:07:18 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,14 @@ int	ft_check_death(t_philo *philo)
 void	ft_all_dead(t_philo *philo)
 {
 	unsigned int	i = 0;
-	pthread_mutex_lock(&philo->l_meal);
+	pthread_mutex_unlock(&philo->check);
 	while (i < philo->all->nb_phil)
 	{
 		philo->all->dead = DEAD;
+		philo[i].all->dead = DEAD;
 		i++;
 	}
-	pthread_mutex_unlock(&philo->l_meal);
+	pthread_mutex_unlock(&philo->check);
 }
 
 int	ft_check_meal(t_philo *philo)

@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/02 17:39:20 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/03 11:04:05 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,20 @@ int	ft_drop_fk(t_philo *philo)
 	print(philo, 4);
 	pthread_mutex_unlock(&philo->all->fork[(philo->index) % philo->all->nb_phil]);
 	print(philo, 4);
+	if (philo->all->dead == DEAD)
+		return (1);
 	return (0);
 }
 
 int	ft_eat(t_philo *philo)
 {
-	if (philo->all->dead == DEAD)
-		return (1);
 	pthread_mutex_lock(&philo->l_meal);
+	if (philo->all->dead == DEAD)
+	{
+		pthread_mutex_unlock(&philo->all->fork[philo->index - 1]);
+		pthread_mutex_unlock(&philo->all->fork[(philo->index) % philo->all->nb_phil]);
+		return (1);
+	}
 	if (philo->all->nb_phil == 1)
 	{
 		pthread_mutex_unlock(&philo->l_meal);
@@ -49,7 +55,7 @@ int	ft_eat(t_philo *philo)
 	{
 		pthread_mutex_unlock(&philo->all->fork[philo->index - 1]);
 		pthread_mutex_unlock(&philo->all->fork[(philo->index) % philo->all->nb_phil]);
-		return (0);
+		return (1);
 	}
 	//inclure un check dead ici ??
 	//philo->t_lmeal = ft_time();
@@ -77,8 +83,12 @@ int	ft_take_fk(t_philo *philo)
 	if (philo->all->nb_phil > 1)
 	{
 		pthread_mutex_lock(&philo->all->fork[philo->index - 1]);
+		if (philo->all->dead == DEAD || philo->all->nb_eat <= philo->count)
+			return (1);
 		print(philo, 1);
 		pthread_mutex_lock(&philo->all->fork[(philo->index) % philo->all->nb_phil]);
+		if (philo->all->dead == DEAD || philo->all->nb_eat <= philo->count)
+			return (1);
 		print(philo, 1);
 	}
 	return (0);
@@ -90,6 +100,7 @@ int	ft_sleep(t_philo *philo)
 		return (1);
 	print(philo, 5);
 	ft_sleep_t(philo->all->t_sleep);
+
 	//usleep(philo->all->t_sleep * 1000);
 	return (0);
 }
@@ -99,7 +110,7 @@ int	ft_sleep(t_philo *philo)
 void	*routine_phil(void *content)
 {
 	t_philo	*philo;
-	int i = 0;
+	unsigned int i = 0;
 
 	philo = (t_philo *)content;
 	if (philo->index % 2 == 0)
@@ -138,8 +149,8 @@ void	*routine_phil(void *content)
 			break ;
 		if (philo->all->dead == DEAD)
 			break ;
-		i++;
 	}
+	fprintf(stderr, "i =%d\n", i);
 	return (NULL);
 }
 
@@ -154,37 +165,40 @@ int	ft_dispatch(t_global *all)
 		//ft_take_fk(&all->philo[i]);
 		if (pthread_create(&all->philo[i].thread, NULL, &routine_phil, (void *)&all->philo[i]) != 0)
 			ft_print_error(5);
-		//pthread_detach(all->philo[i].thread);
+		pthread_detach(all->philo[i].thread);
 		//if (pthread_create(&philo[i].thread, NULL, &ft_check_death, (void *)&philo[i]))
 		//	return(2);
 		i++;
 	}
 	while (all->dead == ALIVE)
 	{
-		ft_sleep_t(4);
+		//ft_sleep_t(4);
+		ft_sleep_t(2);
 		//usleep(400);
+		//pthread_mutex_lock(&all->check);
 		if ((all->nb_eat > 0) && ft_check_meal(all->philo))
 		{
 			ft_all_dead(all->philo);
 			break ;
 		}
-		pthread_mutex_lock(&all->check);
+		//pthread_mutex_lock(&all->check);
 		if(ft_check_death(all->philo))
 		{
+			fprintf(stderr, "yAYYYYYY");
 			ft_all_dead(all->philo);
 			break ;
 		}
-		pthread_mutex_unlock(&all->check);
-		//fprintf(stderr, "2 i =%d\n", i);
+		//pthread_mutex_unlock(&all->check);
+		//fprintf(stderr, "i =%d\n", i);
 	}
-	i = 0;
-	fprintf(stderr, "before\n");
-	while (i < all->nb_phil)
-	{
-		if (pthread_join(all->philo[i].thread, NULL) != 0)
-			ft_print_error(7);
-		fprintf(stderr, "before\n");
-		i++;
-	}
+	//i = 0;
+	//fprintf(stderr, "before join\n");
+	//while (i < all->nb_phil)
+	//{
+	//	if (pthread_join(all->philo[i].thread, NULL) != 0)
+	//		ft_print_error(7);
+	//	fprintf(stderr, "before\n");
+	//	i++;
+	//}
 	return (0);
 }
