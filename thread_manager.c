@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/03 17:06:29 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/04 10:11:01 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	ft_dispatch(t_global *all)
 	{
 		if (pthread_create(&all->philo[i].thread, NULL,
 				&routine_phil, (void *)&all->philo[i]) != 0)
-			ft_print_error(5);
+			return (ft_print_error(5));
 		pthread_detach(all->philo[i].thread);
 		i++;
 	}

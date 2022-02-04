@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:22:00 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/03 17:08:45 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/04 10:12:53 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_putnbr(int n)
 	ft_putchar(nbr % 10 + '0');
 }
 
-void	ft_print_error(int msg)
+int	ft_print_error(int msg)
 {
 	if (msg == 1)
 		write(2, "fork mutex failed to init\n", 26);
@@ -55,7 +55,7 @@ void	ft_print_error(int msg)
 		write(2, "join failed\n", 12);
 	if (msg == 8)
 		write(2, "destroy mutex l_meal\n", 21);
-	exit(0);
+	return (1);
 }
 
 void	print(t_philo *philo, int msg)

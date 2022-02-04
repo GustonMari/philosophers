@@ -6,13 +6,13 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:26:57 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/03 16:13:05 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/04 10:17:55 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-void	destroy_fork(pthread_mutex_t *fork, t_global *all)
+int	destroy_fork(pthread_mutex_t *fork, t_global *all)
 {
 	unsigned int	i;
 	int				error;
@@ -24,13 +24,15 @@ void	destroy_fork(pthread_mutex_t *fork, t_global *all)
 		if (error != 0)
 		{
 			ft_print_error(4);
+			return (1);
 		}
 		i++;
 	}
 	free(fork);
+	return (0);
 }
 
-void	destroy_meal(t_global *all)
+int	destroy_meal(t_global *all)
 {
 	unsigned int	i;
 	int				error;
@@ -42,13 +44,14 @@ void	destroy_meal(t_global *all)
 		if (error != 0)
 		{
 			ft_print_error(8);
-			return ;
+			return (1);
 		}
 		i++;
 	}
+	return (0);
 }
 
-void	unlock_all(t_global *all)
+int	unlock_all(t_global *all)
 {
 	unsigned int	i;
 	int				error;
@@ -63,20 +66,25 @@ void	unlock_all(t_global *all)
 		if (error != 0)
 		{
 			write(2, "Error unlocking\n", 16);
+			return (1);
 		}
 		i++;
 	}
+	return (0);
 }
 
 void	ft_clean_all(t_global *all)
 {
 	write(1, "cleaning all\n", 13);
-	sleep(1);
-	unlock_all(all);
-	sleep(1);
+	usleep(1500);
+	if (unlock_all(all))
+		return ;
+	usleep(1500);
 	if (all->fork)
-		destroy_fork(all->fork, all);
-	destroy_meal(all);
+		if (destroy_fork(all->fork, all))
+			return ;
+	if (destroy_meal(all))
+		return ;
 	pthread_mutex_destroy(&all->print);
 	pthread_mutex_destroy(&all->check);
 	free(all->philo);

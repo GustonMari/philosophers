@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 10:09:12 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/03 16:08:50 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/04 10:11:34 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,16 @@ t_global	*pars_info(int ac, char **av, t_global *all)
 	return (all);
 }
 
-void	init_philo(t_global *all)
+int	init_philo(t_global *all, unsigned int i)
 {
-	unsigned int	i;
 	int				start;
 
-	i = -1;
 	all->philo = malloc(sizeof(t_global) * all->nb_phil);
 	if (!all->philo)
-		ft_print_error(3);
+		return (ft_print_error(3));
 	all->fork = malloc(sizeof(pthread_mutex_t) * all->nb_phil);
 	if (!all->fork)
-		ft_print_error(3);
+		return (ft_print_error(3));
 	start = ft_time();
 	while (++i < all->nb_phil)
 	{
@@ -63,33 +61,43 @@ void	init_philo(t_global *all)
 		all->philo[i].count = 0;
 		if ((pthread_mutex_init(&all->fork[i], NULL)) != 0
 			|| (pthread_mutex_init(&all->philo[i].l_meal, NULL)) != 0)
-			ft_print_error(1);
+			return (ft_print_error(1));
 		all->philo[i].start = start;
 		all->philo[i].all = all;
 		all->philo[i].t_lmeal = ft_time();
 	}
 	if (pthread_mutex_init(&all->print, NULL) != 0)
-		ft_print_error(6);
+		return (ft_print_error(6));
+	return (0);
 }
 
 int	start(t_global *all)
 {
-	init_philo(all);
-	ft_dispatch(all);
+	unsigned int	i;
+
+	i = -1;
+	if (init_philo(all, i))
+		return (1);
+	if (ft_dispatch(all))
+		return (1);
 	return (2);
 }
 
 int	main(int ac, char **av)
 {
 	t_global	all;
+	int			result;
 
 	if (ac < 5 || ac > 6 || !check(ac, av))
 	{
 		write(1, "No no no, not good arguments\n", 29);
 		return (0);
 	}
-	if (start(pars_info(ac, av, &all)) == 2)
+	result = start(pars_info(ac, av, &all));
+	if (result == 2)
 		write(1, "end\n", 4);
+	if (result == 1)
+		write(1, "Problem append\n", 16);
 	ft_clean_all(&all);
 	return (0);
 }
