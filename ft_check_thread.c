@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 17:58:13 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/09 18:21:15 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/09 18:47:42 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_is_dead(t_philo *philo)
 			pthread_mutex_unlock(&philo->all->check);
 			return (1);
 		}
-		pthread_mutex_unlock(&philo->l_meal);
+		//pthread_mutex_unlock(&philo->l_meal);
 	}
 	pthread_mutex_unlock(&philo->all->check);
 	return (0);
@@ -61,11 +61,14 @@ int	ft_all_dead(t_philo *philo)
 	unsigned int	i;
 
 	i = 0;
+
 	while (i < philo->all->nb_phil)
 	{
+		pthread_mutex_lock(&philo->all->check);
 		philo->all->dead = DEAD;
 		philo[i].all->dead = DEAD;
 		i++;
+		pthread_mutex_unlock(&philo->all->check);
 	}
 	return (0);
 }
