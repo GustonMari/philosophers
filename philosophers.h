@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/04 09:57:23 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/09 18:08:05 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <sys/time.h>
+# include <string.h>
 
 # define EAT 2
 # define SLEEP 3
@@ -104,7 +105,7 @@ int				ft_drop_fk(t_philo *philo);
 */
 
 int				ft_print_error(int msg);
-void			ft_clean_all(t_global *all);
+void			ft_clean_all(t_global **all);
 int				unlock_all(t_global *all);
 int				destroy_fork(pthread_mutex_t *fork, t_global *all);
 

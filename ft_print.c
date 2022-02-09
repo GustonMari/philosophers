@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:22:00 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/04 10:12:53 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/09 15:57:21 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,35 @@ int	ft_print_error(int msg)
 
 void	print(t_philo *philo, int msg)
 {
+	//if (philo->all->dead == DEAD)
+	//	return ;
 	pthread_mutex_lock(&philo->all->print);
-	ft_putnbr((ft_time() - (philo->start)));
+	//ft_putnbr((ft_time() - (philo->start)));
+	//printf("%d", ((ft_time() - (philo->start))));
+	//printf(" ms Philosopher ");
+	//ft_putnbr(philo->index);
+	//printf("%d", philo->index);
+	if (msg == 1)
+		printf("%d ms Philosopher %d has taken a fork!\n", (ft_time() - (philo->start)), philo->index );
+	if (msg == 2)
+		printf("%d ms Philosopher %d is dead X_X!\n", (ft_time() - (philo->start)), philo->index );
+	if (msg == 3)
+		printf("%d ms Philosopher %d is eating!\n", (ft_time() - (philo->start)), philo->index );
+	if (msg == 4)
+		printf("%d ms Philosopher %d has drop a fork!\n", (ft_time() - (philo->start)), philo->index );
+	if (msg == 5)
+		printf("%d ms Philosopher %d is sleeping!\n", (ft_time() - (philo->start)), philo->index );
+	pthread_mutex_unlock(&philo->all->print);
+}
+
+/*
+void	print(t_philo *philo, int msg)
+{
+	//if (philo->all->dead == DEAD)
+	//	return ;
+	//pthread_mutex_lock(&philo->all->print);
+	//ft_putnbr((ft_time() - (philo->start)));
+	printf("salut %d", ((ft_time() - (philo->start))));
 	write(1, " ms Philosopher ", 16);
 	ft_putnbr(philo->index);
 	if (msg == 1)
@@ -74,5 +101,6 @@ void	print(t_philo *philo, int msg)
 		write(1, " has drop a fork!\n", 18);
 	if (msg == 5)
 		write(1, " is sleeping!\n", 14);
-	pthread_mutex_unlock(&philo->all->print);
+	//pthread_mutex_unlock(&philo->all->print);
 }
+*/

@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:26:57 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/04 10:17:55 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/09 18:14:34 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	destroy_fork(pthread_mutex_t *fork, t_global *all)
 		}
 		i++;
 	}
-	free(fork);
+	//free(fork);
 	return (0);
 }
 
@@ -65,7 +65,7 @@ int	unlock_all(t_global *all)
 		error = pthread_mutex_unlock(&all->philo[i].l_meal);
 		if (error != 0)
 		{
-			write(2, "Error unlocking\n", 16);
+			printf("Error unlocking\n");
 			return (1);
 		}
 		i++;
@@ -73,19 +73,21 @@ int	unlock_all(t_global *all)
 	return (0);
 }
 
-void	ft_clean_all(t_global *all)
+void	ft_clean_all(t_global **all)
 {
-	write(1, "cleaning all\n", 13);
+	printf("cleaning all\n");
 	usleep(1500);
-	if (unlock_all(all))
-		return ;
+	//if (unlock_all(all))
+	//	return ;
 	usleep(1500);
-	if (all->fork)
-		if (destroy_fork(all->fork, all))
+	if ((*all)->fork)
+		if (destroy_fork((*all)->fork, (*all)))
 			return ;
-	if (destroy_meal(all))
+	if (destroy_meal((*all)))
 		return ;
-	pthread_mutex_destroy(&all->print);
-	pthread_mutex_destroy(&all->check);
-	free(all->philo);
+	pthread_mutex_destroy(&(*all)->print);
+	//pthread_mutex_destroy(&all->check);
+	/* free((*all)->philo->all);
+	free((*all)->philo);
+	free((*all)->fork); */
 }

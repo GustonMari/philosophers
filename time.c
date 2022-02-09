@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 13:43:08 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/03 17:18:14 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/09 12:04:31 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ void	ft_sleep_t(size_t ms)
 	curr = ft_time();
 	end = curr + ms;
 	while (ft_time() < end)
-		usleep(100);
+		usleep(10);
+		//usleep(100);
 }
