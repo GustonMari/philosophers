@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/09 18:43:12 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/10 09:14:27 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,29 +20,42 @@ void	*routine_phil(void *content)
 	if (philo->index % 2 == 0)
 		ft_sleep_t(1);
 		//usleep(100);
-	while (philo->all->dead == ALIVE)
+	while (1)
 	{
-		if (ft_take_fk(philo))
-			break ;
-		if (ft_eat(philo))
-			break ;	
-		//if (philo->all->dead == DEAD)
-		//	break ;
-		if (ft_drop_fk(philo))
-			break ;
-		if ((philo->all->nb_eat <= philo->count && philo->all->nb_eat > 0))
-			break ;
-		if (philo->all->dead == DEAD)
-			break ;
-		if (ft_sleep(philo))
-			break ;
 		pthread_mutex_lock(&philo->all->check);
-		if (philo->all->dead == DEAD)
+		if (philo->all->dead == ALIVE)
 		{
-			pthread_mutex_unlock(&philo->all->check);
-			break ;
-		}
 		pthread_mutex_unlock(&philo->all->check);
+			if (ft_take_fk(philo))
+				break ;
+			if (ft_eat(philo))
+				break ;	
+			//if (philo->all->dead == DEAD)
+			//	break ;
+			if (ft_drop_fk(philo))
+				break ;
+			if ((philo->all->nb_eat <= philo->count && philo->all->nb_eat > 0))
+				break ;
+			
+			pthread_mutex_lock(&philo->all->check);
+			if (philo->all->dead == DEAD)
+			{
+				pthread_mutex_unlock(&philo->all->check);
+				break ;
+			}
+			pthread_mutex_unlock(&philo->all->check);
+			if (ft_sleep(philo))
+				break ;
+			pthread_mutex_lock(&philo->all->check);
+			if (philo->all->dead == DEAD)
+			{
+				pthread_mutex_unlock(&philo->all->check);
+				break ;
+			}
+			pthread_mutex_unlock(&philo->all->check);
+		}
+		else
+			break ;
 	}
 	return (NULL);
 }

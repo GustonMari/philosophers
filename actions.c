@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 17:04:45 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/09 18:28:32 by gmary            ###   ########.fr       */
+/*   Updated: 2022/02/10 09:14:36 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,14 +130,17 @@ int	ft_drop_fk(t_philo *philo)
 
 int	ft_eat(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->all->check);
 	if (philo->all->dead == DEAD)
 	{
+	pthread_mutex_unlock(&philo->all->check);
 		pthread_mutex_unlock(&philo->all->fork[(philo->index)
 			% philo->all->nb_phil]);
 		pthread_mutex_unlock(&philo->all->fork[philo->index - 1]);
 		//pthread_mutex_unlock(&philo->l_meal);
 		return (1);
 	}
+	pthread_mutex_unlock(&philo->all->check);
 	if (philo->all->nb_phil == 1)
 	{
 		//pthread_mutex_unlock(&philo->l_meal);
@@ -165,11 +168,10 @@ int	ft_eat(t_philo *philo)
 
 int	ft_take_fk(t_philo *philo)
 {
-	//fprintf(stderr, "DEAD%d\n", philo->all->dead);
-	//fprintf(stderr, "nb_eat %d\n", philo->all->nb_eat);
-	//fprintf(stderr, "count %d\n", philo->count);
+	pthread_mutex_lock(&philo->all->check);
 	if (philo->all->dead == DEAD || (philo->all->nb_eat <= philo->count && philo->all->nb_eat > 0))
 		return (1);
+	pthread_mutex_unlock(&philo->all->check);
 	if (philo->all->nb_phil == 1)
 	{
 		pthread_mutex_lock(&philo->all->fork[0]);
@@ -179,21 +181,27 @@ int	ft_take_fk(t_philo *philo)
 	if (philo->all->nb_phil > 1)
 	{
 		pthread_mutex_lock(&philo->all->fork[philo->index - 1]);
+		pthread_mutex_lock(&philo->all->check);
 		if (philo->all->dead == DEAD || (philo->all->nb_eat <= philo->count && philo->all->nb_eat > 0))
 		{
+			pthread_mutex_unlock(&philo->all->check);
 			pthread_mutex_unlock(&philo->all->fork[philo->index - 1]);
 			return (1);
 		}
+		pthread_mutex_unlock(&philo->all->check);
 		print(philo, 1);
 		pthread_mutex_lock(&philo->all->fork[(philo->index)
 			% philo->all->nb_phil]);
+		pthread_mutex_lock(&philo->all->check);
 		if (philo->all->dead == DEAD || (philo->all->nb_eat <= philo->count && philo->all->nb_eat > 0))
 		{
+		pthread_mutex_unlock(&philo->all->check);
 			pthread_mutex_unlock(&philo->all->fork[(philo->index)
 				% philo->all->nb_phil]);
 			pthread_mutex_unlock(&philo->all->fork[philo->index - 1]);
 			return (1);
 		}
+		pthread_mutex_unlock(&philo->all->check);
 		print(philo, 1);
 	}
 	return (0);
@@ -201,8 +209,10 @@ int	ft_take_fk(t_philo *philo)
 
 int	ft_sleep(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->all->check);
 	if (philo->all->dead == DEAD)
 		return (1);
+	pthread_mutex_unlock(&philo->all->check);
 	print(philo, 5);
 	ft_sleep_t(philo->all->t_sleep);
 	return (0);
