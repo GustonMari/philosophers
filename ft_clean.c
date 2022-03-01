@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:26:57 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/09 18:14:34 by gmary            ###   ########.fr       */
+/*   Updated: 2022/03/01 10:14:52 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	destroy_fork(pthread_mutex_t *fork, t_global *all)
 		}
 		i++;
 	}
-	//free(fork);
 	return (0);
 }
 
@@ -77,8 +76,6 @@ void	ft_clean_all(t_global **all)
 {
 	printf("cleaning all\n");
 	usleep(1500);
-	//if (unlock_all(all))
-	//	return ;
 	usleep(1500);
 	if ((*all)->fork)
 		if (destroy_fork((*all)->fork, (*all)))
@@ -86,8 +83,4 @@ void	ft_clean_all(t_global **all)
 	if (destroy_meal((*all)))
 		return ;
 	pthread_mutex_destroy(&(*all)->print);
-	//pthread_mutex_destroy(&all->check);
-	/* free((*all)->philo->all);
-	free((*all)->philo);
-	free((*all)->fork); */
 }

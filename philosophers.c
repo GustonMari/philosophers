@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/25 10:09:12 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/09 18:14:04 by gmary            ###   ########.fr       */
+/*   Updated: 2022/03/01 10:13:58 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,25 +40,23 @@ t_global	*pars_info(int ac, char **av, t_global *all)
 	all->t_sleep = ft_atoi(av[4]);
 	if (ac == 6)
 		all->nb_eat = ft_atoi(av[5]);
-	pthread_mutex_init(&all->check,NULL); 
+	pthread_mutex_init(&all->check, NULL);
 	return (all);
 }
 
 int	init_philo(t_global *all, unsigned int i)
 {
-	int				start;
+	int	start;
 
 	all->philo = malloc(sizeof(t_global) * all->nb_phil);
 	if (!all->philo)
 		return (ft_print_error(3));
-
 	all->fork = malloc(sizeof(pthread_mutex_t) * all->nb_phil);
 	if (!all->fork)
 		return (ft_print_error(3));
 	start = ft_time();
 	while (++i < all->nb_phil)
 	{
-		//memset(&all->philo[i], 0, sizeof(t_global));
 		all->philo[i].index = i + 1;
 		all->dead = 0;
 		all->philo[i].count = 0;
@@ -105,7 +103,6 @@ int	main(int ac, char **av)
 		printf("end\n");
 	if (result == 1)
 		printf("Problem append\n");
-	//free(all->philo);
 	ft_clean_all(&all);
 	free(all->philo);
 	free(all->fork);

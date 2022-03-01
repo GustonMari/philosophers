@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 17:58:13 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/09 18:47:42 by gmary            ###   ########.fr       */
+/*   Updated: 2022/03/01 10:20:54 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,14 @@ int	ft_is_dead(t_philo *philo)
 	}
 	if (philo->all->dead == ALIVE)
 	{
-		//pthread_mutex_lock(&philo->l_meal);
 		if (ft_time() - philo->t_lmeal >= philo->all->t_die)
 		{
-			//philo->all->stop = 1;
 			philo->all->dead = DEAD;
-			//usleep(800);
 			ft_sleep_t(4);
 			print(philo, 2);
-			//pthread_mutex_unlock(&philo->l_meal);
 			pthread_mutex_unlock(&philo->all->check);
 			return (1);
 		}
-		//pthread_mutex_unlock(&philo->l_meal);
 	}
 	pthread_mutex_unlock(&philo->all->check);
 	return (0);
@@ -45,7 +40,6 @@ int	ft_check_death(t_philo *philo)
 
 	i = 0;
 	ft_sleep_t(8);
-	//ft_sleep_t(7);
 	while (i < philo->all->nb_phil)
 	{
 		pthread_mutex_lock(&philo->all->check);
@@ -61,7 +55,6 @@ int	ft_all_dead(t_philo *philo)
 	unsigned int	i;
 
 	i = 0;
-
 	while (i < philo->all->nb_phil)
 	{
 		pthread_mutex_lock(&philo->all->check);
@@ -91,9 +84,6 @@ int	ft_check_meal(t_philo *philo)
 		if (eat == philo->all->nb_phil)
 		{
 			printf("everyone ate!");
-			//pthread_mutex_lock(&philo->all->print);
-			//write(1, "everyone ate!\n", 14);
-			//pthread_mutex_unlock(&philo->all->print);
 			return (1);
 		}
 		i++;
