@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:22:00 by gmary             #+#    #+#             */
-/*   Updated: 2022/03/01 10:12:01 by gmary            ###   ########.fr       */
+/*   Updated: 2022/03/14 09:39:29 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ void	print(t_philo *philo, int msg)
 {
 	pthread_mutex_lock(&philo->all->print);
 	if (msg == 1)
-		printf("%d ms Philosopher %d has taken a fork!\n", (ft_time() - (philo->start)), philo->index);
+		printf("%d ms Philosopher %d has taken a fork!\n",
+			(ft_time() - (philo->start)), philo->index);
 	if (msg == 2)
 		printf("%d ms Philosopher %d is dead X_X!\n", (ft_time() - (philo->start)), philo->index);
 	if (msg == 3)
