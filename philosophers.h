@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/02/09 18:08:05 by gmary            ###   ########.fr       */
+/*   Updated: 2022/03/21 10:56:24 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,19 @@ int				ft_print_error(int msg);
 void			ft_clean_all(t_global **all);
 int				unlock_all(t_global *all);
 int				destroy_fork(pthread_mutex_t *fork, t_global *all);
+
+/*
+			CHECK
+*/
+
+int				check(int ac, char **av);
+int				check_2(char **av);
+
+/*
+		FORK
+*/
+
+int				ft_fk_left(t_philo *philo);
+int				ft_fk_right(t_philo *philo);
 
 #endif

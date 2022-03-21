@@ -6,11 +6,42 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/03/01 10:17:22 by gmary            ###   ########.fr       */
+/*   Updated: 2022/03/21 11:09:15 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+int	is_all_dead(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->all->check);
+	if (philo->all->dead == DEAD)
+	{
+		pthread_mutex_unlock(&philo->all->check);
+		return (DEAD);
+	}
+	pthread_mutex_unlock(&philo->all->check);
+	return (ALIVE);
+}
+
+int	ft_actions(t_philo *philo)
+{
+	if (ft_take_fk(philo))
+		return (-1);
+	if (ft_eat(philo))
+		return (-1);
+	if (ft_drop_fk(philo))
+		return (-1);
+	if ((philo->all->nb_eat <= philo->count && philo->all->nb_eat > 0))
+		return (-1);
+	if (is_all_dead(philo) == DEAD)
+		return (-1);
+	if (ft_sleep(philo))
+		return (-1);
+	if (is_all_dead(philo) == DEAD)
+		return (-1);
+	return (0);
+}
 
 void	*routine_phil(void *content)
 {
@@ -18,37 +49,15 @@ void	*routine_phil(void *content)
 
 	philo = (t_philo *)content;
 	if (philo->index % 2 == 0)
-		ft_sleep_t(1);
+		ft_sleep_t(2);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->all->check);
 		if (philo->all->dead == ALIVE)
 		{
 			pthread_mutex_unlock(&philo->all->check);
-			if (ft_take_fk(philo))
+			if (ft_actions(philo) == -1)
 				break ;
-			if (ft_eat(philo))
-				break ;
-			if (ft_drop_fk(philo))
-				break ;
-			if ((philo->all->nb_eat <= philo->count && philo->all->nb_eat > 0))
-				break ;
-			pthread_mutex_lock(&philo->all->check);
-			if (philo->all->dead == DEAD)
-			{
-				pthread_mutex_unlock(&philo->all->check);
-				break ;
-			}
-			pthread_mutex_unlock(&philo->all->check);
-			if (ft_sleep(philo))
-				break ;
-			pthread_mutex_lock(&philo->all->check);
-			if (philo->all->dead == DEAD)
-			{
-				pthread_mutex_unlock(&philo->all->check);
-				break ;
-			}
-			pthread_mutex_unlock(&philo->all->check);
 		}
 		else
 			break ;
@@ -79,7 +88,7 @@ int	ft_dispatch(t_global *all)
 	i = 0;
 	while (i < all->nb_phil)
 	{
-		pthread_join(all->philo[i].thread,NULL);
+		pthread_join(all->philo[i].thread, NULL);
 		i++;
 	}
 	return (0);
