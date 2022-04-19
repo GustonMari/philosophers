@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/04/19 10:00:34 by gmary            ###   ########.fr       */
+/*   Updated: 2022/04/19 13:12:23 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	*routine_phil(void *content)
 
 	philo = (t_philo *)content;
 	if (philo->index % 2 == 0)
-		usleep(50);
+		ft_sleep_t(10);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->all->check);
@@ -79,7 +79,7 @@ int	ft_dispatch(t_global *all)
 	}
 	while (all->dead == ALIVE)
 	{
-		usleep(50);
+		ft_sleep_t(10);
 		if ((all->nb_eat > 0) && ft_check_meal(all->philo))
 			ft_all_dead(all->philo);
 		if (ft_check_death(all->philo))

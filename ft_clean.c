@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/03 15:26:57 by gmary             #+#    #+#             */
-/*   Updated: 2022/03/01 10:14:52 by gmary            ###   ########.fr       */
+/*   Updated: 2022/04/19 11:37:36 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	ft_clean_all(t_global **all)
 	printf("cleaning all\n");
 	usleep(1500);
 	usleep(1500);
+	usleep(8000);
 	if ((*all)->fork)
 		if (destroy_fork((*all)->fork, (*all)))
 			return ;

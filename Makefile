@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -pthread
+CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread
 SRC = actions.c \
 			check.c \
 			fk.c \
@@ -32,7 +32,7 @@ all: server
 server: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) -pthread -o $(NAME) $(OBJ) 
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJ) 
 	@echo "\\n\033[32;1mCOMPILATION OK \033[0m \\n"
 
 %.o: %.c

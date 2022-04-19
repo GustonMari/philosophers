@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 17:58:13 by gmary             #+#    #+#             */
-/*   Updated: 2022/04/19 10:30:42 by gmary            ###   ########.fr       */
+/*   Updated: 2022/04/19 13:13:12 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	ft_is_dead(t_philo *philo)
 		if (ft_time() - philo->t_lmeal >= philo->all->t_die)
 		{
 			philo->all->dead = DEAD;
-			ft_sleep_t(50);
 			print(philo, 2);
 			pthread_mutex_unlock(&philo->all->check);
 			return (1);
@@ -34,6 +33,28 @@ int	ft_is_dead(t_philo *philo)
 	return (0);
 }
 
+/* int	ft_is_dead(t_philo *philo)
+{
+	if (philo->all->dead == DEAD)
+	{
+		pthread_mutex_unlock(&philo->all->check);
+		return (1);
+	}
+	if (philo->all->dead == ALIVE)
+	{
+		if (ft_time() - philo->t_lmeal >= philo->all->t_die)
+		{
+			philo->all->dead = DEAD;
+			//ft_sleep_t(3);
+			print(philo, 2);
+			pthread_mutex_unlock(&philo->all->check);
+			return (1);
+		}
+	}
+	pthread_mutex_unlock(&philo->all->check);
+	return (0);
+} */
+
 int	ft_check_death(t_philo *philo)
 {
 	unsigned int	i;
@@ -42,7 +63,7 @@ int	ft_check_death(t_philo *philo)
 	ft_sleep_t(8);
 	while (i < philo->all->nb_phil)
 	{
-		usleep(100);
+		ft_sleep_t(2);
 		pthread_mutex_lock(&philo->all->check);
 		if (ft_is_dead(&philo[i]))
 			return (1);
