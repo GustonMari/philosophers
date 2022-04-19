@@ -32,7 +32,7 @@ all: server
 server: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) -o $(NAME) $(OBJ) 
+	$(CC) -pthread -o $(NAME) $(OBJ) 
 	@echo "\\n\033[32;1mCOMPILATION OK \033[0m \\n"
 
 %.o: %.c

@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 10:22:00 by gmary             #+#    #+#             */
-/*   Updated: 2022/03/21 10:19:10 by gmary            ###   ########.fr       */
+/*   Updated: 2022/04/19 10:32:04 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,16 @@ int	ft_print_error(int msg)
 
 void	print(t_philo *philo, int msg)
 {
+	static int	stop_print = 0;
+	const char	*msg_string[5] = {"is eating\n", "died\n",
+		"has taken a fork\n", "is sleeping\n", "is thinking\n"};
+
+	if (stop_print == 1)
+		return ;
 	pthread_mutex_lock(&philo->all->print);
-	if (msg == 1)
-		printf("%d ms Philosopher %d has taken a fork!\n",
-			(ft_time() - (philo->start)), philo->index);
+	printf("%d %d %s\n",
+		(ft_time() - (philo->start)), philo->index, msg_string[msg]);
 	if (msg == 2)
-		printf("%d ms Philosopher %d is dead X_X!\n",
-			(ft_time() - (philo->start)), philo->index);
-	if (msg == 3)
-		printf("%d ms Philosopher %d is eating!\n",
-			(ft_time() - (philo->start)), philo->index);
-	if (msg == 4)
-		printf("%d ms Philosopher %d has drop a fork!\n",
-			(ft_time() - (philo->start)), philo->index);
-	if (msg == 5)
-		printf("%d ms Philosopher %d is sleeping!\n",
-			(ft_time() - (philo->start)), philo->index);
+		stop_print = 1;
 	pthread_mutex_unlock(&philo->all->print);
 }
