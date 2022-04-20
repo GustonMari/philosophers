@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/04/20 09:31:48 by gmary            ###   ########.fr       */
+/*   Updated: 2022/04/20 09:40:42 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	*routine_phil(void *content)
 	{
 		print(philo, 1);
 		ft_sleep_t(philo->all->t_die);
-		//print(philo, 2);
 		return (NULL);
 	}
 	if (philo->index % 2 == 0)
