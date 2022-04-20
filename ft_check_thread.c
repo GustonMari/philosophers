@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/01 17:58:13 by gmary             #+#    #+#             */
-/*   Updated: 2022/04/19 13:13:12 by gmary            ###   ########.fr       */
+/*   Updated: 2022/04/19 13:45:34 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	ft_check_death(t_philo *philo)
 	ft_sleep_t(8);
 	while (i < philo->all->nb_phil)
 	{
-		ft_sleep_t(2);
 		pthread_mutex_lock(&philo->all->check);
 		if (ft_is_dead(&philo[i]))
 			return (1);

@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread
+CFLAGS = -Wall -Wextra -Werror -pthread #-fsanitize=thread
 SRC = actions.c \
 			check.c \
 			fk.c \
@@ -12,7 +12,7 @@ SRC = actions.c \
 			time.c \
 			utils.c
 OBJ = $(SRC:.c=.o)
-NAME= philosophers
+NAME= philo
 
 all: server
 	@echo "\\n\033[32;1mMAKE ALL OK \033[0m \\n"

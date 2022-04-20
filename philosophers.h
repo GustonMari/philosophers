@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 15:40:49 by gmary             #+#    #+#             */
-/*   Updated: 2022/03/21 10:56:24 by gmary            ###   ########.fr       */
+/*   Updated: 2022/04/20 09:23:39 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_global
 
 unsigned int	ft_time(void);
 void			ft_sleep_t(size_t ms);
+void			ft_sleep_t_bis(size_t ms, t_philo *philo);
 
 /*
 			UTILS

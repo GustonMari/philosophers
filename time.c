@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 13:43:08 by gmary             #+#    #+#             */
-/*   Updated: 2022/04/19 10:10:55 by gmary            ###   ########.fr       */
+/*   Updated: 2022/04/20 09:26:32 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,19 @@ void	ft_sleep_t(size_t ms)
 	end = curr + ms;
 	while (ft_time() < end)
 		usleep(10);
+}
+
+void	ft_sleep_t_bis(size_t ms, t_philo *philo)
+{
+	unsigned int	curr;
+	unsigned int	end;
+
+	curr = ft_time();
+	end = curr + ms;
+	while (ft_time() < end)
+	{
+		if (philo->all->dead == DEAD)
+			break ;
+		usleep(10);
+	}
 }

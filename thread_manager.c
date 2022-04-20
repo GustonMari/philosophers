@@ -6,7 +6,7 @@
 /*   By: gmary <gmary@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/28 14:55:35 by gmary             #+#    #+#             */
-/*   Updated: 2022/04/19 13:12:23 by gmary            ###   ########.fr       */
+/*   Updated: 2022/04/20 09:31:48 by gmary            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,13 @@ void	*routine_phil(void *content)
 	t_philo	*philo;
 
 	philo = (t_philo *)content;
+	if (philo->all->nb_phil == 1)
+	{
+		print(philo, 1);
+		ft_sleep_t(philo->all->t_die);
+		//print(philo, 2);
+		return (NULL);
+	}
 	if (philo->index % 2 == 0)
 		ft_sleep_t(10);
 	while (1)
@@ -79,7 +86,7 @@ int	ft_dispatch(t_global *all)
 	}
 	while (all->dead == ALIVE)
 	{
-		ft_sleep_t(10);
+		ft_sleep_t(1);
 		if ((all->nb_eat > 0) && ft_check_meal(all->philo))
 			ft_all_dead(all->philo);
 		if (ft_check_death(all->philo))
